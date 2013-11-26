@@ -21,6 +21,7 @@ local function fftGeneric(inp, n, direction)
    elseif input:size(1) > n then
       input = input[{{1,n},{}}]
    end
+   input = input:contiguous() -- make sure input is contiguous
    local input_data = torch.data(input) -- double*
    local input_data_cast = ffi.cast('fftw_complex*', input_data)
 
@@ -67,6 +68,7 @@ local function fft2Generic(inp, m, n, direction)
    elseif input:size(1) > m or input:size(2) > n then
       input = input[{{1,m},{1,n},{}}]
    end
+   input = input:contiguous() -- make sure input is contiguous
    local input_data = torch.data(input) -- double*
    local input_data_cast = ffi.cast('fftw_complex*', input_data)
 
