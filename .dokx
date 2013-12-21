@@ -1,0 +1,4 @@
+return {
+       packageName = 'signal',
+       includeLocal = false
+}

@@ -1,9 +1,18 @@
 require 'signal'
 
-local mytester = torch.Tester()
+local ffttest = {}
+
 local precision = 1e-5
 
-local ffttest = {}
+local assertcount = 0
+
+local function asserteq(a,b, err)
+   if a-b > precision then
+      error(err)
+   else
+      assertcount = assertcount + 1
+   end
+end
 
 function ffttest.fft()
    do
@@ -12,7 +21,7 @@ function ffttest.fft()
       local inputi = torch.ifft(output)
       for i=1,input:size(1) do
 	 for j=1,input:size(2) do
-	    mytester:asserteq(input[i][j], inputi[i][j], 'error in fft+ifft')
+	    asserteq(input[i][j], inputi[i][j], 'error in fft+ifft')
 	 end
       end   
    end
@@ -21,7 +30,7 @@ function ffttest.fft()
       local output = torch.fft(input)
       local inputi = torch.ifft(output)
       for i=1,input:size(1) do
-	 mytester:asserteq(input[i], inputi[i][1], 'error in fft+ifft')
+	 asserteq(input[i], inputi[i][1], 'error in fft+ifft')
       end   
    end
 end
@@ -38,7 +47,7 @@ function ffttest.fft2()
       for i=1,input:size(1) do
 	 for j=1,input:size(2) do
 	    for k=1,input:size(3) do
-	       mytester:asserteq(input[i][j][k], inputi[i][j][k], 'error in fft2+ifft2')
+	       asserteq(input[i][j][k], inputi[i][j][k], 'error in fft2+ifft2')
 	    end
 	 end
       end
@@ -49,12 +58,14 @@ function ffttest.fft2()
       local inputi = torch.ifft2(output)
       for i=1,input:size(1) do
 	 for j=1,input:size(2) do
-	    mytester:asserteq(input[i][j], inputi[i][j][1], 'error in fft2+ifft2')
+	    asserteq(input[i][j], inputi[i][j][1], 'error in fft2+ifft2')
 	 end
       end
    end
 end
 
-mytester:add(ffttest)
+for k,v in pairs(ffttest) do
+   v()
+end
 
-mytester:run()
+print('Tested ' .. assertcount .. ' assertions without error')
