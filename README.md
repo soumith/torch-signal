@@ -23,3 +23,5 @@ torch-rocks install https://raw.github.com/soumith/torch-signal/master/rocks/sig
 
 For documentation, go to:
 http://soumith.github.io/torch-signal/signal/
+
+For examples, see tests/
