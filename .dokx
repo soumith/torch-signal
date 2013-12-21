@@ -1,4 +1,6 @@
 return {
        packageName = 'signal',
-       includeLocal = false
+       includeLocal = false,
+       githubURL = 'https://github.com/soumith/torch-signal/'
+       
 }
