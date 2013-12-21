@@ -1,5 +1,5 @@
 
-<a class="entityLink" href="https://github.com/https://github.com/soumith/torch-signal//blob/8566cc505ec5ec57fbfcfdad3fce4f299f48b6a6/init.lua#L42">[src]</a>
+<a class="entityLink" href="https://github.com/https://github.com/soumith/torch-signal//blob/24d586664f8b53c5a9bb91eba92643726c74c1b1/init.lua#L42">[src]</a>
 <a name="signal.fft"></a>
 ### signal.fft(input) ###
 
@@ -9,7 +9,7 @@
    
    Output matches with matlab output
 
-<a class="entityLink" href="https://github.com/https://github.com/soumith/torch-signal//blob/8566cc505ec5ec57fbfcfdad3fce4f299f48b6a6/init.lua#L53">[src]</a>
+<a class="entityLink" href="https://github.com/https://github.com/soumith/torch-signal//blob/24d586664f8b53c5a9bb91eba92643726c74c1b1/init.lua#L53">[src]</a>
 <a name="signal.ifft"></a>
 ### signal.ifft(input) ###
 
@@ -19,7 +19,7 @@ inverse 1D FFT
 
    Output matches with matlab output
 
-<a class="entityLink" href="https://github.com/https://github.com/soumith/torch-signal//blob/8566cc505ec5ec57fbfcfdad3fce4f299f48b6a6/init.lua#L63">[src]</a>
+<a class="entityLink" href="https://github.com/https://github.com/soumith/torch-signal//blob/24d586664f8b53c5a9bb91eba92643726c74c1b1/init.lua#L63">[src]</a>
 <a name="signal.rfft"></a>
 ### signal.rfft(inp) ###
 
@@ -28,13 +28,13 @@ real to complex dft.
    Input is a 1D real tensor
    Output is 2D complex tensor of size (input:size(1)/2 + 1, 2)
 
-<a class="entityLink" href="https://github.com/https://github.com/soumith/torch-signal//blob/8566cc505ec5ec57fbfcfdad3fce4f299f48b6a6/init.lua#L87">[src]</a>
+<a class="entityLink" href="https://github.com/https://github.com/soumith/torch-signal//blob/24d586664f8b53c5a9bb91eba92643726c74c1b1/init.lua#L87">[src]</a>
 <a name="signal.irfft"></a>
 ### signal.irfft(inp) ###
 
 complex to real dft. This function is the exact inverse of signal.rfft
 
-<a class="entityLink" href="https://github.com/https://github.com/soumith/torch-signal//blob/8566cc505ec5ec57fbfcfdad3fce4f299f48b6a6/init.lua#L145">[src]</a>
+<a class="entityLink" href="https://github.com/https://github.com/soumith/torch-signal//blob/24d586664f8b53c5a9bb91eba92643726c74c1b1/init.lua#L145">[src]</a>
 <a name="signal.fft2"></a>
 ### signal.fft2(input) ###
 
@@ -44,7 +44,7 @@ complex to real dft. This function is the exact inverse of signal.rfft
 
    Output matches with matlab output
 
-<a class="entityLink" href="https://github.com/https://github.com/soumith/torch-signal//blob/8566cc505ec5ec57fbfcfdad3fce4f299f48b6a6/init.lua#L156">[src]</a>
+<a class="entityLink" href="https://github.com/https://github.com/soumith/torch-signal//blob/24d586664f8b53c5a9bb91eba92643726c74c1b1/init.lua#L156">[src]</a>
 <a name="signal.ifft2"></a>
 ### signal.ifft2(input) ###
 
@@ -54,7 +54,7 @@ complex to real dft. This function is the exact inverse of signal.rfft
 
    Output matches with matlab output
 
-<a class="entityLink" href="https://github.com/https://github.com/soumith/torch-signal//blob/8566cc505ec5ec57fbfcfdad3fce4f299f48b6a6/init.lua#L197">[src]</a>
+<a class="entityLink" href="https://github.com/https://github.com/soumith/torch-signal//blob/24d586664f8b53c5a9bb91eba92643726c74c1b1/init.lua#L197">[src]</a>
 <a name="signal.fft3"></a>
 ### signal.fft3(input) ###
 
@@ -64,7 +64,7 @@ complex to real dft. This function is the exact inverse of signal.rfft
 
    Output matches with matlab output
 
-<a class="entityLink" href="https://github.com/https://github.com/soumith/torch-signal//blob/8566cc505ec5ec57fbfcfdad3fce4f299f48b6a6/init.lua#L208">[src]</a>
+<a class="entityLink" href="https://github.com/https://github.com/soumith/torch-signal//blob/24d586664f8b53c5a9bb91eba92643726c74c1b1/init.lua#L208">[src]</a>
 <a name="signal.ifft3"></a>
 ### signal.ifft3(input) ###
 
@@ -74,7 +74,7 @@ complex to real dft. This function is the exact inverse of signal.rfft
 
    Output matches with matlab output
 
-<a class="entityLink" href="https://github.com/https://github.com/soumith/torch-signal//blob/8566cc505ec5ec57fbfcfdad3fce4f299f48b6a6/init.lua#L240">[src]</a>
+<a class="entityLink" href="https://github.com/https://github.com/soumith/torch-signal//blob/24d586664f8b53c5a9bb91eba92643726c74c1b1/init.lua#L240">[src]</a>
 <a name="signal.stft"></a>
 ### signal.stft(inp, window_size, window_stride, window_type) ###
 
@@ -83,7 +83,7 @@ complex to real dft. This function is the exact inverse of signal.rfft
    To make sure that the windows are not discontinuous at the edges, you can optionally apply a window preprocessor.
    The available window preprocessors are: hamming, hann, bartlett
 
-<a class="entityLink" href="https://github.com/https://github.com/soumith/torch-signal//blob/8566cc505ec5ec57fbfcfdad3fce4f299f48b6a6/init.lua#L266">[src]</a>
+<a class="entityLink" href="https://github.com/https://github.com/soumith/torch-signal//blob/24d586664f8b53c5a9bb91eba92643726c74c1b1/init.lua#L266">[src]</a>
 <a name="signal.spectrogram"></a>
 ### signal.spectrogram(inp, window_size, window_stride) ###
 
@@ -91,7 +91,7 @@ Takes the stft and generates a pretty spectrogram by
    taking the magnitude of the stft, and applying a (natural log * 10)
    Also transposes the output, to have time on the X axis.
 
-<a class="entityLink" href="https://github.com/https://github.com/soumith/torch-signal//blob/8566cc505ec5ec57fbfcfdad3fce4f299f48b6a6/init.lua#L288">[src]</a>
+<a class="entityLink" href="https://github.com/https://github.com/soumith/torch-signal//blob/24d586664f8b53c5a9bb91eba92643726c74c1b1/init.lua#L288">[src]</a>
 <a name="signal.unwrap"></a>
 ### signal.unwrap(a, tol) ###
 
@@ -101,7 +101,7 @@ Correct phase angles to produce smoother phase plots
 
    Output matches with matlab output
 
-<a class="entityLink" href="https://github.com/https://github.com/soumith/torch-signal//blob/8566cc505ec5ec57fbfcfdad3fce4f299f48b6a6/init.lua#L315">[src]</a>
+<a class="entityLink" href="https://github.com/https://github.com/soumith/torch-signal//blob/24d586664f8b53c5a9bb91eba92643726c74c1b1/init.lua#L315">[src]</a>
 <a name="signal.rcunwrap"></a>
 ### signal.rcunwrap(x) ###
 
@@ -109,7 +109,7 @@ unwraps the phase and removes phase corresponding to integer lag.
 
    Output matches with matlab output
 
-<a class="entityLink" href="https://github.com/https://github.com/soumith/torch-signal//blob/8566cc505ec5ec57fbfcfdad3fce4f299f48b6a6/init.lua#L334">[src]</a>
+<a class="entityLink" href="https://github.com/https://github.com/soumith/torch-signal//blob/24d586664f8b53c5a9bb91eba92643726c74c1b1/init.lua#L334">[src]</a>
 <a name="signal.rcwrap"></a>
 ### signal.rcwrap(y, nd) ###
 
@@ -117,7 +117,7 @@ Adds phase corresponding to integer lag
 
    Output matches with matlab output
 
-<a class="entityLink" href="https://github.com/https://github.com/soumith/torch-signal//blob/8566cc505ec5ec57fbfcfdad3fce4f299f48b6a6/init.lua#L358">[src]</a>
+<a class="entityLink" href="https://github.com/https://github.com/soumith/torch-signal//blob/24d586664f8b53c5a9bb91eba92643726c74c1b1/init.lua#L358">[src]</a>
 <a name="signal.cceps"></a>
 ### signal.cceps(x) ###
 
@@ -126,7 +126,7 @@ Adds phase corresponding to integer lag
 
    Output matches with matlab output
 
-<a class="entityLink" href="https://github.com/https://github.com/soumith/torch-signal//blob/8566cc505ec5ec57fbfcfdad3fce4f299f48b6a6/init.lua#L383">[src]</a>
+<a class="entityLink" href="https://github.com/https://github.com/soumith/torch-signal//blob/24d586664f8b53c5a9bb91eba92643726c74c1b1/init.lua#L383">[src]</a>
 <a name="signal.icceps"></a>
 ### signal.icceps(xhat,nd) ###
 
@@ -135,7 +135,7 @@ Adds phase corresponding to integer lag
 
    Output matches with matlab output
 
-<a class="entityLink" href="https://github.com/https://github.com/soumith/torch-signal//blob/8566cc505ec5ec57fbfcfdad3fce4f299f48b6a6/init.lua#L402">[src]</a>
+<a class="entityLink" href="https://github.com/https://github.com/soumith/torch-signal//blob/24d586664f8b53c5a9bb91eba92643726c74c1b1/init.lua#L402">[src]</a>
 <a name="signal.rceps"></a>
 ### signal.rceps(x) ###
 
@@ -144,7 +144,7 @@ Real cepstrum and minimum phase reconstruction
 
    Output matches with matlab output
 
-<a class="entityLink" href="https://github.com/https://github.com/soumith/torch-signal//blob/8566cc505ec5ec57fbfcfdad3fce4f299f48b6a6/init.lua#L446">[src]</a>
+<a class="entityLink" href="https://github.com/https://github.com/soumith/torch-signal//blob/24d586664f8b53c5a9bb91eba92643726c74c1b1/init.lua#L446">[src]</a>
 <a name="signal.dct"></a>
 ### signal.dct(input) ###
 
@@ -154,7 +154,7 @@ Real cepstrum and minimum phase reconstruction
    To see what is exactly computed, see section REDFT10 over here: 
    http://www.fftw.org/doc/1d-Real_002deven-DFTs-_0028DCTs_0029.html
 
-<a class="entityLink" href="https://github.com/https://github.com/soumith/torch-signal//blob/8566cc505ec5ec57fbfcfdad3fce4f299f48b6a6/init.lua#L457">[src]</a>
+<a class="entityLink" href="https://github.com/https://github.com/soumith/torch-signal//blob/24d586664f8b53c5a9bb91eba92643726c74c1b1/init.lua#L457">[src]</a>
 <a name="signal.idct"></a>
 ### signal.idct(input) ###
 
@@ -164,7 +164,7 @@ inverse 1D Discrete Cosine Transform (DCT)
    To see what is exactly computed, see section REDFT01 over here: 
    http://www.fftw.org/doc/1d-Real_002deven-DFTs-_0028DCTs_0029.html
 
-<a class="entityLink" href="https://github.com/https://github.com/soumith/torch-signal//blob/8566cc505ec5ec57fbfcfdad3fce4f299f48b6a6/init.lua#L496">[src]</a>
+<a class="entityLink" href="https://github.com/https://github.com/soumith/torch-signal//blob/24d586664f8b53c5a9bb91eba92643726c74c1b1/init.lua#L496">[src]</a>
 <a name="signal.dct2"></a>
 ### signal.dct2(input) ###
 
@@ -174,7 +174,7 @@ inverse 1D Discrete Cosine Transform (DCT)
    To see what is exactly computed, see section REDFT10 over here: 
    http://www.fftw.org/doc/1d-Real_002deven-DFTs-_0028DCTs_0029.html
 
-<a class="entityLink" href="https://github.com/https://github.com/soumith/torch-signal//blob/8566cc505ec5ec57fbfcfdad3fce4f299f48b6a6/init.lua#L507">[src]</a>
+<a class="entityLink" href="https://github.com/https://github.com/soumith/torch-signal//blob/24d586664f8b53c5a9bb91eba92643726c74c1b1/init.lua#L507">[src]</a>
 <a name="signal.idct2"></a>
 ### signal.idct2(input) ###
 
@@ -184,7 +184,7 @@ inverse 2D Discrete Cosine Transform (DCT)
    To see what is exactly computed, see section REDFT01 over here: 
    http://www.fftw.org/doc/1d-Real_002deven-DFTs-_0028DCTs_0029.html
 
-<a class="entityLink" href="https://github.com/https://github.com/soumith/torch-signal//blob/8566cc505ec5ec57fbfcfdad3fce4f299f48b6a6/init.lua#L548">[src]</a>
+<a class="entityLink" href="https://github.com/https://github.com/soumith/torch-signal//blob/24d586664f8b53c5a9bb91eba92643726c74c1b1/init.lua#L548">[src]</a>
 <a name="signal.dct3"></a>
 ### signal.dct3(input) ###
 
@@ -194,7 +194,7 @@ inverse 2D Discrete Cosine Transform (DCT)
    To see what is exactly computed, see section REDFT10 over here: 
    http://www.fftw.org/doc/1d-Real_002deven-DFTs-_0028DCTs_0029.html
 
-<a class="entityLink" href="https://github.com/https://github.com/soumith/torch-signal//blob/8566cc505ec5ec57fbfcfdad3fce4f299f48b6a6/init.lua#L559">[src]</a>
+<a class="entityLink" href="https://github.com/https://github.com/soumith/torch-signal//blob/24d586664f8b53c5a9bb91eba92643726c74c1b1/init.lua#L559">[src]</a>
 <a name="signal.idct3"></a>
 ### signal.idct3(input) ###
 
@@ -204,7 +204,7 @@ inverse 3D Discrete Cosine Transform (DCT)
    To see what is exactly computed, see section REDFT01 over here: 
    http://www.fftw.org/doc/1d-Real_002deven-DFTs-_0028DCTs_0029.html
 
-<a class="entityLink" href="https://github.com/https://github.com/soumith/torch-signal//blob/8566cc505ec5ec57fbfcfdad3fce4f299f48b6a6/init.lua#L569">[src]</a>
+<a class="entityLink" href="https://github.com/https://github.com/soumith/torch-signal//blob/24d586664f8b53c5a9bb91eba92643726c74c1b1/init.lua#L569">[src]</a>
 <a name="signal.hilbert"></a>
 ### signal.hilbert(xr) ###
 

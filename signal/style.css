@@ -32,7 +32,6 @@ h3, h4, h5, h6 {
 
 a {
     color: #39c;
-    font-weight: 400;
     text-decoration: none;
 }
 
@@ -44,7 +43,7 @@ a small {
 }
 
 .wrapper {
-    width: 900px;
+    width: 90%;
     margin: 0 auto;
     margin-top: 4em;
 }
@@ -136,7 +135,6 @@ header ul li a {
 #navcontainer a
 {
     display: block;
-    width: 20em;
     padding: 3px 12px 3px 8px;
     text-decoration: none;
     border-bottom: 1px solid #fff;
@@ -164,7 +162,6 @@ header ul li a {
 #navcontainer li li li li a
 {
     display: block;
-    width: 20em;
     padding: 0px 0px 0px 35px;
     text-decoration: none;
     border-bottom: 1px solid #fff;
@@ -172,9 +169,10 @@ header ul li a {
 }
 
 section {
-    width: 600px;
-    float: right;
+    width: 700px;
+    float: left;
     padding-bottom: 50px;
+    margin-left: 20px;
 }
 
 small {
@@ -185,7 +183,6 @@ hr {
     border: 0;
     background: #e5e5e5;
     height: 1px;
-    margin: 0 0 20px;
 }
 
 footer {
@@ -246,18 +243,25 @@ pre.has-jax {
 }
 
 .result {
-    border: solid 1px #eee;
+    border: solid 1px #e5e5e5;
     margin-bottom: 0.5em;
     padding: 0.5em;
     border-radius: 0.5em;
 }
 
 .docSection {
-    border-bottom: solid 1px #ddd;
+    border-bottom: solid 1px #e5e5e5;
     margin-bottom: 1em;
     overflow-x: hidden;
 }
 
 .searchForm {
     display: inline-block;
+}
+
+.anchor {
+    display:block;
+    position:relative;
+    top:-50px;
+    visibility: hidden;
 }
