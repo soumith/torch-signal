@@ -39,19 +39,6 @@
 
 <script src="../search.js"></script>
 <script type="text/javascript"> addSearchFormHeader(); </script>
-<script type="text/javascript">
-$(document).ready(function() {
-    /* Fix up any badly formed anchors */
-    $("a").each(function(i, e) {
-        if (!e.href) {
-            $(e).addClass('anchor');
-            var inner = $(e).html();
-            $(e).html("");
-            $(e).after(inner);
-        }
-    })
-})
-</script>
 </head>
 <body>
 <header>
@@ -63,13 +50,32 @@ $(document).ready(function() {
 </header>
 <div class="wrapper">
 <div id="navcontainer"><ul>
-<li>
-<ul>
-<li><a href="#signal.README.torch_signal">torch-signal</a></li>
-</ul>
-</li>
-<hr>
 <li><a href="#signal.init.dok">init</a>
+<ul>
+<li><a href="#signal.fft">signal.fft</a></li>
+<li><a href="#signal.ifft">signal.ifft</a></li>
+<li><a href="#signal.rfft">signal.rfft</a></li>
+<li><a href="#signal.irfft">signal.irfft</a></li>
+<li><a href="#signal.fft2">signal.fft2</a></li>
+<li><a href="#signal.ifft2">signal.ifft2</a></li>
+<li><a href="#signal.fft3">signal.fft3</a></li>
+<li><a href="#signal.ifft3">signal.ifft3</a></li>
+<li><a href="#signal.stft">signal.stft</a></li>
+<li><a href="#signal.spectrogram">signal.spectrogram</a></li>
+<li><a href="#signal.unwrap">signal.unwrap</a></li>
+<li><a href="#signal.rcunwrap">signal.rcunwrap</a></li>
+<li><a href="#signal.rcwrap">signal.rcwrap</a></li>
+<li><a href="#signal.cceps">signal.cceps</a></li>
+<li><a href="#signal.icceps">signal.icceps</a></li>
+<li><a href="#signal.rceps">signal.rceps</a></li>
+<li><a href="#signal.dct">signal.dct</a></li>
+<li><a href="#signal.idct">signal.idct</a></li>
+<li><a href="#signal.dct2">signal.dct2</a></li>
+<li><a href="#signal.idct2">signal.idct2</a></li>
+<li><a href="#signal.dct3">signal.dct3</a></li>
+<li><a href="#signal.idct3">signal.idct3</a></li>
+<li><a href="#signal.hilbert">signal.hilbert</a></li>
+</ul>
 </li>
 </ul>
 </div>
