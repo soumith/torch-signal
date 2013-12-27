@@ -50,6 +50,29 @@
 </header>
 <div class="wrapper">
 <div id="navcontainer"><ul>
+<li><a href="#signal.complex.dok">complex</a>
+<ul>
+<li><a href="#signal.complex.poly">signal.complex.poly</a></li>
+<li><a href="#signal.complex.angle">signal.complex.angle</a></li>
+<li><a href="#signal.complex.exp">signal.complex.exp</a></li>
+<li><a href="#signal.complex.abs">signal.complex.abs</a></li>
+<li><a href="#signal.complex.real">signal.complex.real</a></li>
+<li><a href="#signal.complex.imag">signal.complex.imag</a></li>
+<li><a href="#signal.complex.conj">signal.complex.conj</a></li>
+<li><a href="#signal.complex.prod">signal.complex.prod</a></li>
+<li><a href="#signal.complex.cmul">signal.complex.cmul</a></li>
+<li><a href="#signal.complex.dot">signal.complex.dot</a></li>
+<li><a href="#signal.complex.mm">signal.complex.mm</a></li>
+<li><a href="#signal.complex.diag">signal.complex.diag</a></li>
+</ul>
+</li>
+<li><a href="#signal.extramath.dok">extramath</a>
+<ul>
+<li><a href="#signal.math.round">signal.math.round</a></li>
+<li><a href="#signal.math.log2">signal.math.log2</a></li>
+<li><a href="#signal.math.nextpow2">signal.math.nextpow2</a></li>
+</ul>
+</li>
 <li><a href="#signal.init.dok">init</a>
 <ul>
 <li><a href="#signal.fft">signal.fft</a></li>
@@ -61,6 +84,7 @@
 <li><a href="#signal.fft3">signal.fft3</a></li>
 <li><a href="#signal.ifft3">signal.ifft3</a></li>
 <li><a href="#signal.stft">signal.stft</a></li>
+<li><a href="#signal.rstft">signal.rstft</a></li>
 <li><a href="#signal.spectrogram">signal.spectrogram</a></li>
 <li><a href="#signal.unwrap">signal.unwrap</a></li>
 <li><a href="#signal.rcunwrap">signal.rcunwrap</a></li>
@@ -75,6 +99,11 @@
 <li><a href="#signal.dct3">signal.dct3</a></li>
 <li><a href="#signal.idct3">signal.idct3</a></li>
 <li><a href="#signal.hilbert">signal.hilbert</a></li>
+<li><a href="#signal.incomplete.butter">signal.incomplete.butter</a></li>
+<li><a href="#signal.hann">signal.hann</a></li>
+<li><a href="#signal.blackman">signal.blackman</a></li>
+<li><a href="#signal.blackmanharris">signal.blackmanharris</a></li>
+<li><a href="#signal.incomplete.cqt">signal.incomplete.cqt</a></li>
 </ul>
 </li>
 </ul>
@@ -107,7 +136,7 @@
 <a href="http://soumith.github.io/torch-signal/signal/">http://soumith.github.io/torch-signal/signal/</a></p>
 
 <p>For examples, see tests/</p>
-</div><div class='docSection'><a name="signal.init.dok"></a><p><a class="entityLink" href="https://github.com/soumith/torch-signal/blob/6b182dbae9f838ec678efa5e78ceb392f08f6868/init.lua#L42">[src]</a>
+</div><div class='docSection'><a name="signal.init.dok"></a><p><a class="entityLink" href="https://github.com/soumith/torch-signal/blob/c75b892ad28095b3b046ea29b5fd5524526bcf06/init.lua#L46">[src]</a>
 <a name="signal.fft"></a></p>
 
 <h3>signal.fft(input)</h3>
@@ -118,7 +147,7 @@
 
 <p>Output matches with matlab output</p>
 
-<p><a class="entityLink" href="https://github.com/soumith/torch-signal/blob/6b182dbae9f838ec678efa5e78ceb392f08f6868/init.lua#L53">[src]</a>
+<p><a class="entityLink" href="https://github.com/soumith/torch-signal/blob/c75b892ad28095b3b046ea29b5fd5524526bcf06/init.lua#L57">[src]</a>
 <a name="signal.ifft"></a></p>
 
 <h3>signal.ifft(input)</h3>
@@ -129,7 +158,7 @@
 
 <p>Output matches with matlab output</p>
 
-<p><a class="entityLink" href="https://github.com/soumith/torch-signal/blob/6b182dbae9f838ec678efa5e78ceb392f08f6868/init.lua#L63">[src]</a>
+<p><a class="entityLink" href="https://github.com/soumith/torch-signal/blob/c75b892ad28095b3b046ea29b5fd5524526bcf06/init.lua#L67">[src]</a>
 <a name="signal.rfft"></a></p>
 
 <h3>signal.rfft(inp)</h3>
@@ -139,14 +168,14 @@
    Input is a 1D real tensor
    Output is 2D complex tensor of size (input:size(1)/2 + 1, 2)</p>
 
-<p><a class="entityLink" href="https://github.com/soumith/torch-signal/blob/6b182dbae9f838ec678efa5e78ceb392f08f6868/init.lua#L87">[src]</a>
+<p><a class="entityLink" href="https://github.com/soumith/torch-signal/blob/c75b892ad28095b3b046ea29b5fd5524526bcf06/init.lua#L91">[src]</a>
 <a name="signal.irfft"></a></p>
 
 <h3>signal.irfft(inp)</h3>
 
 <p>complex to real dft. This function is the exact inverse of signal.rfft</p>
 
-<p><a class="entityLink" href="https://github.com/soumith/torch-signal/blob/6b182dbae9f838ec678efa5e78ceb392f08f6868/init.lua#L145">[src]</a>
+<p><a class="entityLink" href="https://github.com/soumith/torch-signal/blob/c75b892ad28095b3b046ea29b5fd5524526bcf06/init.lua#L149">[src]</a>
 <a name="signal.fft2"></a></p>
 
 <h3>signal.fft2(input)</h3>
@@ -157,7 +186,7 @@
 
 <p>Output matches with matlab output</p>
 
-<p><a class="entityLink" href="https://github.com/soumith/torch-signal/blob/6b182dbae9f838ec678efa5e78ceb392f08f6868/init.lua#L156">[src]</a>
+<p><a class="entityLink" href="https://github.com/soumith/torch-signal/blob/c75b892ad28095b3b046ea29b5fd5524526bcf06/init.lua#L160">[src]</a>
 <a name="signal.ifft2"></a></p>
 
 <h3>signal.ifft2(input)</h3>
@@ -168,7 +197,7 @@
 
 <p>Output matches with matlab output</p>
 
-<p><a class="entityLink" href="https://github.com/soumith/torch-signal/blob/6b182dbae9f838ec678efa5e78ceb392f08f6868/init.lua#L197">[src]</a>
+<p><a class="entityLink" href="https://github.com/soumith/torch-signal/blob/c75b892ad28095b3b046ea29b5fd5524526bcf06/init.lua#L201">[src]</a>
 <a name="signal.fft3"></a></p>
 
 <h3>signal.fft3(input)</h3>
@@ -179,7 +208,7 @@
 
 <p>Output matches with matlab output</p>
 
-<p><a class="entityLink" href="https://github.com/soumith/torch-signal/blob/6b182dbae9f838ec678efa5e78ceb392f08f6868/init.lua#L208">[src]</a>
+<p><a class="entityLink" href="https://github.com/soumith/torch-signal/blob/c75b892ad28095b3b046ea29b5fd5524526bcf06/init.lua#L212">[src]</a>
 <a name="signal.ifft3"></a></p>
 
 <h3>signal.ifft3(input)</h3>
@@ -190,26 +219,37 @@
 
 <p>Output matches with matlab output</p>
 
-<p><a class="entityLink" href="https://github.com/soumith/torch-signal/blob/6b182dbae9f838ec678efa5e78ceb392f08f6868/init.lua#L240">[src]</a>
+<p><a class="entityLink" href="https://github.com/soumith/torch-signal/blob/c75b892ad28095b3b046ea29b5fd5524526bcf06/init.lua#L244">[src]</a>
 <a name="signal.stft"></a></p>
 
 <h3>signal.stft(inp, window_size, window_stride, window_type)</h3>
 
-<p>1D short-time fourier transforms
+<p>1D complex short-time fourier transforms
    Run a window across your signal and calculate fourier transforms on that window.
    To make sure that the windows are not discontinuous at the edges, you can optionally apply a window preprocessor.
    The available window preprocessors are: hamming, hann, bartlett</p>
 
-<p><a class="entityLink" href="https://github.com/soumith/torch-signal/blob/6b182dbae9f838ec678efa5e78ceb392f08f6868/init.lua#L266">[src]</a>
+<p><a class="entityLink" href="https://github.com/soumith/torch-signal/blob/c75b892ad28095b3b046ea29b5fd5524526bcf06/init.lua#L272">[src]</a>
+<a name="signal.rstft"></a></p>
+
+<h3>signal.rstft(inp, window_size, window_stride, window_type)</h3>
+
+<p>1D real short-time fourier transforms
+   Run a window across your signal and calculate fourier transforms on that window.
+   To make sure that the windows are not discontinuous at the edges, you can optionally apply a window preprocessor.
+   rfft is used for fourier transform, so only the positive frequencies are retained
+   The available window preprocessors are: hamming, hann, bartlett</p>
+
+<p><a class="entityLink" href="https://github.com/soumith/torch-signal/blob/c75b892ad28095b3b046ea29b5fd5524526bcf06/init.lua#L298">[src]</a>
 <a name="signal.spectrogram"></a></p>
 
 <h3>signal.spectrogram(inp, window_size, window_stride)</h3>
 
-<p>Takes the stft and generates a pretty spectrogram by
+<p>Takes the rstft(x) and generates a pretty spectrogram by
    taking the magnitude of the stft, and applying a (natural log * 10)
    Also transposes the output, to have time on the X axis.</p>
 
-<p><a class="entityLink" href="https://github.com/soumith/torch-signal/blob/6b182dbae9f838ec678efa5e78ceb392f08f6868/init.lua#L288">[src]</a>
+<p><a class="entityLink" href="https://github.com/soumith/torch-signal/blob/c75b892ad28095b3b046ea29b5fd5524526bcf06/init.lua#L320">[src]</a>
 <a name="signal.unwrap"></a></p>
 
 <h3>signal.unwrap(a, tol)</h3>
@@ -220,7 +260,7 @@
 
 <p>Output matches with matlab output</p>
 
-<p><a class="entityLink" href="https://github.com/soumith/torch-signal/blob/6b182dbae9f838ec678efa5e78ceb392f08f6868/init.lua#L315">[src]</a>
+<p><a class="entityLink" href="https://github.com/soumith/torch-signal/blob/c75b892ad28095b3b046ea29b5fd5524526bcf06/init.lua#L347">[src]</a>
 <a name="signal.rcunwrap"></a></p>
 
 <h3>signal.rcunwrap(x)</h3>
@@ -229,7 +269,7 @@
 
 <p>Output matches with matlab output</p>
 
-<p><a class="entityLink" href="https://github.com/soumith/torch-signal/blob/6b182dbae9f838ec678efa5e78ceb392f08f6868/init.lua#L334">[src]</a>
+<p><a class="entityLink" href="https://github.com/soumith/torch-signal/blob/c75b892ad28095b3b046ea29b5fd5524526bcf06/init.lua#L366">[src]</a>
 <a name="signal.rcwrap"></a></p>
 
 <h3>signal.rcwrap(y, nd)</h3>
@@ -238,7 +278,7 @@
 
 <p>Output matches with matlab output</p>
 
-<p><a class="entityLink" href="https://github.com/soumith/torch-signal/blob/6b182dbae9f838ec678efa5e78ceb392f08f6868/init.lua#L358">[src]</a>
+<p><a class="entityLink" href="https://github.com/soumith/torch-signal/blob/c75b892ad28095b3b046ea29b5fd5524526bcf06/init.lua#L386">[src]</a>
 <a name="signal.cceps"></a></p>
 
 <h3>signal.cceps(x)</h3>
@@ -248,7 +288,7 @@
 
 <p>Output matches with matlab output</p>
 
-<p><a class="entityLink" href="https://github.com/soumith/torch-signal/blob/6b182dbae9f838ec678efa5e78ceb392f08f6868/init.lua#L383">[src]</a>
+<p><a class="entityLink" href="https://github.com/soumith/torch-signal/blob/c75b892ad28095b3b046ea29b5fd5524526bcf06/init.lua#L409">[src]</a>
 <a name="signal.icceps"></a></p>
 
 <h3>signal.icceps(xhat,nd)</h3>
@@ -258,7 +298,7 @@
 
 <p>Output matches with matlab output</p>
 
-<p><a class="entityLink" href="https://github.com/soumith/torch-signal/blob/6b182dbae9f838ec678efa5e78ceb392f08f6868/init.lua#L402">[src]</a>
+<p><a class="entityLink" href="https://github.com/soumith/torch-signal/blob/c75b892ad28095b3b046ea29b5fd5524526bcf06/init.lua#L426">[src]</a>
 <a name="signal.rceps"></a></p>
 
 <h3>signal.rceps(x)</h3>
@@ -268,7 +308,7 @@
 
 <p>Output matches with matlab output</p>
 
-<p><a class="entityLink" href="https://github.com/soumith/torch-signal/blob/6b182dbae9f838ec678efa5e78ceb392f08f6868/init.lua#L446">[src]</a>
+<p><a class="entityLink" href="https://github.com/soumith/torch-signal/blob/c75b892ad28095b3b046ea29b5fd5524526bcf06/init.lua#L466">[src]</a>
 <a name="signal.dct"></a></p>
 
 <h3>signal.dct(input)</h3>
@@ -279,7 +319,7 @@
 <p>To see what is exactly computed, see section REDFT10 over here: 
    <a href="http://www.fftw.org/doc/1d-Real_002deven-DFTs-_0028DCTs_0029.html">http://www.fftw.org/doc/1d-Real_002deven-DFTs-_0028DCTs_0029.html</a></p>
 
-<p><a class="entityLink" href="https://github.com/soumith/torch-signal/blob/6b182dbae9f838ec678efa5e78ceb392f08f6868/init.lua#L457">[src]</a>
+<p><a class="entityLink" href="https://github.com/soumith/torch-signal/blob/c75b892ad28095b3b046ea29b5fd5524526bcf06/init.lua#L477">[src]</a>
 <a name="signal.idct"></a></p>
 
 <h3>signal.idct(input)</h3>
@@ -290,7 +330,7 @@
 <p>To see what is exactly computed, see section REDFT01 over here: 
    <a href="http://www.fftw.org/doc/1d-Real_002deven-DFTs-_0028DCTs_0029.html">http://www.fftw.org/doc/1d-Real_002deven-DFTs-_0028DCTs_0029.html</a></p>
 
-<p><a class="entityLink" href="https://github.com/soumith/torch-signal/blob/6b182dbae9f838ec678efa5e78ceb392f08f6868/init.lua#L496">[src]</a>
+<p><a class="entityLink" href="https://github.com/soumith/torch-signal/blob/c75b892ad28095b3b046ea29b5fd5524526bcf06/init.lua#L516">[src]</a>
 <a name="signal.dct2"></a></p>
 
 <h3>signal.dct2(input)</h3>
@@ -301,7 +341,7 @@
 <p>To see what is exactly computed, see section REDFT10 over here: 
    <a href="http://www.fftw.org/doc/1d-Real_002deven-DFTs-_0028DCTs_0029.html">http://www.fftw.org/doc/1d-Real_002deven-DFTs-_0028DCTs_0029.html</a></p>
 
-<p><a class="entityLink" href="https://github.com/soumith/torch-signal/blob/6b182dbae9f838ec678efa5e78ceb392f08f6868/init.lua#L507">[src]</a>
+<p><a class="entityLink" href="https://github.com/soumith/torch-signal/blob/c75b892ad28095b3b046ea29b5fd5524526bcf06/init.lua#L527">[src]</a>
 <a name="signal.idct2"></a></p>
 
 <h3>signal.idct2(input)</h3>
@@ -312,7 +352,7 @@
 <p>To see what is exactly computed, see section REDFT01 over here: 
    <a href="http://www.fftw.org/doc/1d-Real_002deven-DFTs-_0028DCTs_0029.html">http://www.fftw.org/doc/1d-Real_002deven-DFTs-_0028DCTs_0029.html</a></p>
 
-<p><a class="entityLink" href="https://github.com/soumith/torch-signal/blob/6b182dbae9f838ec678efa5e78ceb392f08f6868/init.lua#L548">[src]</a>
+<p><a class="entityLink" href="https://github.com/soumith/torch-signal/blob/c75b892ad28095b3b046ea29b5fd5524526bcf06/init.lua#L568">[src]</a>
 <a name="signal.dct3"></a></p>
 
 <h3>signal.dct3(input)</h3>
@@ -323,7 +363,7 @@
 <p>To see what is exactly computed, see section REDFT10 over here: 
    <a href="http://www.fftw.org/doc/1d-Real_002deven-DFTs-_0028DCTs_0029.html">http://www.fftw.org/doc/1d-Real_002deven-DFTs-_0028DCTs_0029.html</a></p>
 
-<p><a class="entityLink" href="https://github.com/soumith/torch-signal/blob/6b182dbae9f838ec678efa5e78ceb392f08f6868/init.lua#L559">[src]</a>
+<p><a class="entityLink" href="https://github.com/soumith/torch-signal/blob/c75b892ad28095b3b046ea29b5fd5524526bcf06/init.lua#L579">[src]</a>
 <a name="signal.idct3"></a></p>
 
 <h3>signal.idct3(input)</h3>
@@ -334,7 +374,7 @@
 <p>To see what is exactly computed, see section REDFT01 over here: 
    <a href="http://www.fftw.org/doc/1d-Real_002deven-DFTs-_0028DCTs_0029.html">http://www.fftw.org/doc/1d-Real_002deven-DFTs-_0028DCTs_0029.html</a></p>
 
-<p><a class="entityLink" href="https://github.com/soumith/torch-signal/blob/6b182dbae9f838ec678efa5e78ceb392f08f6868/init.lua#L569">[src]</a>
+<p><a class="entityLink" href="https://github.com/soumith/torch-signal/blob/c75b892ad28095b3b046ea29b5fd5524526bcf06/init.lua#L589">[src]</a>
 <a name="signal.hilbert"></a></p>
 
 <h3>signal.hilbert(xr)</h3>
@@ -343,6 +383,124 @@
    Takes 1D inputs</p>
 
 <p>Output matches with matlab output</p>
+
+<p><a class="entityLink" href="https://github.com/soumith/torch-signal/blob/c75b892ad28095b3b046ea29b5fd5524526bcf06/init.lua#L702">[src]</a>
+<a name="signal.incomplete.butter"></a></p>
+
+<h3>signal.incomplete.butter(n, Wn, ftype)</h3>
+
+<p>Digital butterworth filter
+   output is n+1 points</p>
+
+<p>n - number of poles
+   Wn - cutoff frequency (between 0 and 1.0). where 1.0 is half the sampling rate
+   ftype - &#39;high&#39;, &#39;low&#39;, &#39;stop&#39;, &#39;pass&#39;. If &#39;stop&#39; or &#39;pass&#39;, the pass Wn = {W1, W2}</p>
+
+<p><a class="entityLink" href="https://github.com/soumith/torch-signal/blob/c75b892ad28095b3b046ea29b5fd5524526bcf06/init.lua#L789">[src]</a>
+<a name="signal.hann"></a></p>
+
+<h3>signal.hann(L, flag)</h3>
+
+<p>returns an L-point Hann window in a 1D tensor. L must be a positive integer.
+   When &#39;periodic&#39; is specified, hann computes a length L+1 window and returns the first L points.
+   flag: &#39;periodic&#39; or &#39;symmetric&#39;. &#39;symmetric&#39; is default</p>
+
+<p>Output matches with matlab output</p>
+
+<p><a class="entityLink" href="https://github.com/soumith/torch-signal/blob/c75b892ad28095b3b046ea29b5fd5524526bcf06/init.lua#L815">[src]</a>
+<a name="signal.blackman"></a></p>
+
+<h3>signal.blackman(N, flag)</h3>
+
+<p>returns an N-point Blackman window in a 1D tensor. 
+   N must be a positive integer.
+   When &#39;periodic&#39; is specified, computes a length N+1 window and returns the first N points.
+   flag: &#39;periodic&#39; or &#39;symmetric&#39;. &#39;symmetric&#39; is default</p>
+
+<p>Output matches with matlab output</p>
+
+<p><a class="entityLink" href="https://github.com/soumith/torch-signal/blob/c75b892ad28095b3b046ea29b5fd5524526bcf06/init.lua#L856">[src]</a>
+<a name="signal.blackmanharris"></a></p>
+
+<h3>signal.blackmanharris(N, flag)</h3>
+
+<p>returns an N-point minimum 4-term Blackman-Harris window in a 1D tensor. 
+   The window is minimum in the sense that its maximum sidelobes are minimized.
+   N must be a positive integer.<br>
+   flag: &#39;periodic&#39; or &#39;symmetric&#39;. &#39;symmetric&#39; is default</p>
+
+<p>Output matches with matlab output</p>
+
+<p><a class="entityLink" href="https://github.com/soumith/torch-signal/blob/c75b892ad28095b3b046ea29b5fd5524526bcf06/init.lua#L1022">[src]</a>
+<a name="signal.incomplete.cqt"></a></p>
+
+<h3>signal.incomplete.cqt(x, fmin, fmax, bins, fs, atomHopFactor, q,</h3>
+
+<pre><code>       thres, winFlag) ###
+</code></pre>
+
+<p>Constant-Q transform
+   x - 1D input Tensor
+   fmin - lowest frequency of interest
+   fmax - highest frequency of interest
+   bins frequency bins per octave
+   fs - sampling rate</p>
+</div><div class='docSection'><a name="signal.complex.dok"></a><h3>complex.lua</h3>
+
+<p>All functions in here expect either a 2D Nx2 Complex tensor</p>
+
+<p><a class="entityLink" href="https://github.com/soumith/torch-signal/blob/c75b892ad28095b3b046ea29b5fd5524526bcf06/complex.lua#L149">[src]</a>
+<a name="signal.complex.poly"></a></p>
+
+<h3>signal.complex.poly(x)</h3>
+
+<p>Polynomial with specified roots</p>
+
+<p>Function is super unoptimized</p>
+
+<h4>Undocumented methods</h4>
+
+<p><a name="signal.complex.angle"></a></p>
+
+<ul>
+<li><code>signal.complex.angle(h)</code>
+<a name="signal.complex.exp"></a></li>
+<li><code>signal.complex.exp(h)</code>
+<a name="signal.complex.abs"></a></li>
+<li><code>signal.complex.abs(h)</code>
+<a name="signal.complex.real"></a></li>
+<li><code>signal.complex.real(h)</code>
+<a name="signal.complex.imag"></a></li>
+<li><code>signal.complex.imag(h)</code>
+<a name="signal.complex.conj"></a></li>
+<li><code>signal.complex.conj(h)</code>
+<a name="signal.complex.prod"></a></li>
+<li><code>signal.complex.prod(h)</code>
+<a name="signal.complex.cmul"></a></li>
+<li><code>signal.complex.cmul(a1,b1, noargcheck)</code>
+<a name="signal.complex.dot"></a></li>
+<li><code>signal.complex.dot(a,b)</code>
+<a name="signal.complex.mm"></a></li>
+<li><code>signal.complex.mm(a,b)</code>
+<a name="signal.complex.diag"></a></li>
+<li><code>signal.complex.diag(x)</code></li>
+</ul>
+</div><div class='docSection'><a name="signal.extramath.dok"></a><p><a class="entityLink" href="https://github.com/soumith/torch-signal/blob/c75b892ad28095b3b046ea29b5fd5524526bcf06/extramath.lua#L3">[src]</a>
+<a name="signal.math.round"></a></p>
+
+<h3>signal.math.round(num)</h3>
+
+<p>adds some extra functions to the math table</p>
+
+<h4>Undocumented methods</h4>
+
+<p><a name="signal.math.log2"></a></p>
+
+<ul>
+<li><code>signal.math.log2(x)</code>
+<a name="signal.math.nextpow2"></a></li>
+<li><code>signal.math.nextpow2(x)</code></li>
+</ul>
 </div>
 </section>
 </div>
