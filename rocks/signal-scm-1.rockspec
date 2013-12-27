@@ -24,6 +24,8 @@ dependencies = {
 build = {
    type = "builtin",
    modules = {
-      ["signal.init"] = "init.lua"
+      ["signal.init"] = "init.lua",
+      ["signal.complex"] = "complex.lua",
+      ["signal.extramath"] = "extramath.lua"	
    }      
 }
