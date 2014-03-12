@@ -26,6 +26,6 @@ function addSearchFormHeader()
 
 function addSearchFormBody(parentElement) {
     _ifNotFileProtocol(function() {
-        $("body").append(_searchForm());
+        $("body").prepend(_searchForm());
     });
 }
