@@ -1,15 +1,21 @@
+
+
 ### complex.lua ###
 
 All functions in here expect either a 2D Nx2 Complex tensor
 
 
-<a class="entityLink" href="https://github.com/soumith/torch-signal/blob/c75b892ad28095b3b046ea29b5fd5524526bcf06/complex.lua#L149">[src]</a>
+<a class="entityLink" href="https://github.com/soumith/torch-signal/blob/474c3728f333825e1d464470c74d2ea63a47df7d/complex.lua#L149">[src]</a>
 <a name="signal.complex.poly"></a>
+
+
 ### signal.complex.poly(x) ###
 
 Polynomial with specified roots
    
    Function is super unoptimized
+
+
 #### Undocumented methods ####
 
 <a name="signal.complex.angle"></a>
