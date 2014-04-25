@@ -16,7 +16,7 @@ sudo apt-get install libfftw3
   
 Install torch-signal:
 ```bash
-torch-rocks install https://raw.github.com/soumith/torch-signal/master/rocks/signal-scm-1.rockspec
+luarocks install https://raw.github.com/soumith/torch-signal/master/rocks/signal-scm-1.rockspec
 ```
 
 (add sudo for ubuntu)
