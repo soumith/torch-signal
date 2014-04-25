@@ -1,6 +1,5 @@
 local ffi  = require 'ffi'
 local fftw = require 'fftw3'
-local torchffi = require 'torchffi'
 require 'signal'
 
 local function fftr1d(input)

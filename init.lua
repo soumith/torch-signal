@@ -1,5 +1,4 @@
 local ffi  = require 'ffi'
-local torchffi = require 'torchffi'
 local fftw = require 'fftw3'
 local complex = require 'signal.complex'
 require 'signal.extramath'
