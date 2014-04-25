@@ -1,3 +1,4 @@
+require 'torch'
 local ffi  = require 'ffi'
 local fftw = require 'fftw3'
 local complex = require 'signal.complex'
