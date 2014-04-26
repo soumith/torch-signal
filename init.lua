@@ -38,10 +38,10 @@ local function fftGeneric(inp, direction)
 	       '2D Tensor of size Nx2 (Complex FFT with N points)')
    end
    input = input:contiguous() -- make sure input is contiguous
-   local input_data = torch.data(input) -- double* or float*
+   local input_data = torch.data(input)
    local input_data_cast = ffi.cast(fftw_complex_cast, input_data)
 
-   local output = torch.Tensor(input:size(1), 2):zero();
+   local output = torch.Tensor(input:size(1), 2):typeAs(input):zero();
    local output_data = torch.data(output);
    local output_data_cast = ffi.cast(fftw_complex_cast, output_data)
 
@@ -87,9 +87,9 @@ function signal.rfft(input)
    typecheck(input)
    if input:dim() ~= 1 then error('Input has to be 1D Tensor of size N (Real FFT with N points)') end
    input = input:contiguous() -- make sure input is contiguous
-   local input_data = torch.data(input) -- double*/float*
+   local input_data = torch.data(input)
 
-   local output = torch.Tensor(math.floor((input:size(1)/2) + 1), 2):zero();
+   local output = torch.Tensor(math.floor((input:size(1)/2) + 1), 2):typeAs(input):zero();
    local output_data = torch.data(output);
    local output_data_cast = ffi.cast(fftw_complex_cast, output_data)
 
@@ -109,10 +109,10 @@ function signal.irfft(input)
       error('Input has to be 2D Tensor of size Nx2 (Complex input with N points)')
    end
    input = input:contiguous() -- make sure input is contiguous
-   local input_data = torch.data(input) -- double*/float*
+   local input_data = torch.data(input)
    local input_data_cast = ffi.cast(fftw_complex_cast, input_data)
 
-   local output = torch.Tensor((input:size(1) - 1) * 2):zero();
+   local output = torch.Tensor((input:size(1) - 1) * 2):typeAs(input):zero();
    local output_data = torch.data(output);
 
    local flags = fftw.ESTIMATE
@@ -135,10 +135,10 @@ local function fft2Generic(inp, direction)
 	       '3D Tensor of size MxNx2 (Complex FFT with MxN points')
    end      
    input = input:contiguous() -- make sure input is contiguous
-   local input_data = torch.data(input) -- double*
+   local input_data = torch.data(input)
    local input_data_cast = ffi.cast(fftw_complex_cast, input_data)
 
-   local output = torch.Tensor(input:size(1), input:size(2), 2):zero();
+   local output = torch.Tensor(input:size(1), input:size(2), 2):typeAs(input):zero();
    local output_data = torch.data(output);
    local output_data_cast = ffi.cast(fftw_complex_cast, output_data)
 
@@ -188,10 +188,10 @@ local function fft3Generic(inp, direction)
 	       '4D Tensor of size MxNxPx2 (Complex FFT with MxNxP points')
    end
    input = input:contiguous() -- make sure input is contiguous
-   local input_data = torch.data(input) -- double*/float*
+   local input_data = torch.data(input)
    local input_data_cast = ffi.cast(fftw_complex_cast, input_data)
 
-   local output = torch.Tensor(input:size(1), input:size(2), input:size(3), 2):zero();
+   local output = torch.Tensor(input:size(1), input:size(2), input:size(3), 2):typeAs(input):zero();
    local output_data = torch.data(output);
    local output_data_cast = ffi.cast(fftw_complex_cast, output_data)
 
@@ -554,9 +554,9 @@ local function dctGeneric(input, direction)
       error('Input has to be 1D Tensor of size N (Real FFT with N points)')
    end
    input = input:contiguous() -- make sure input is contiguous
-   local input_data = torch.data(input) -- double*/float*
-   local output = input:clone():zero()
-   local output_data = torch.data(output) -- double*/float*
+   local input_data = torch.data(input)
+   local output = torch.Tensor():typeAs(input):resizeAs(input):zero()
+   local output_data = torch.data(output)
    local flags = fftw.ESTIMATE
    local dcttype
    if direction == fftw.FORWARD then
@@ -601,9 +601,9 @@ local function dct2Generic(input, direction)
       error('Input has to be 2D Tensor of size NxM (Real FFT with NxM points)')
    end
    input = input:contiguous() -- make sure input is contiguous
-   local input_data = torch.data(input) -- double*/float*
-   local output = input:clone():zero()
-   local output_data = torch.data(output) -- double*/float*
+   local input_data = torch.data(input)
+   local output = torch.Tensor():typeAs(input):resizeAs(input):zero()
+   local output_data = torch.data(output)
    local flags = fftw.ESTIMATE
    local dcttype
    if direction == fftw.FORWARD then
@@ -644,13 +644,14 @@ function signal.idct2(input)
 end
 
 local function dct3Generic(input, direction)
+   typecheck(input)
    if input:dim() ~= 3 then
       error('Input has to be 3D Tensor of size NxM (Real FFT with NxMxP points)')
    end
    input = input:contiguous() -- make sure input is contiguous
-   local input_data = torch.data(input) -- double*/float*
-   local output = input:clone():zero()
-   local output_data = torch.data(output) -- double*/float*
+   local input_data = torch.data(input)
+   local output = torch.Tensor():typeAs(input):resizeAs(input):zero()
+   local output_data = torch.data(output)
    local flags = fftw.ESTIMATE
    local dcttype
    if direction == fftw.FORWARD then
