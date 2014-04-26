@@ -1,6 +1,23 @@
 require 'torch'
 local ffi  = require 'ffi'
-local fftw = require 'fftw3'
+local fftw3 = require 'fftw3'
+
+local fftw = fftw3
+local fftw_complex_cast = 'fftw_complex*'
+
+function typecheck(input)
+   if input:type() == 'torch.FloatTensor' then
+      fftw = fftw3.float
+      fftw_complex_cast = 'fftwf_complex*'
+   elseif input:type() == 'torch.DoubleTensor' then
+      fftw = fftw3
+      fftw_complex_cast = 'fftw_complex*'
+   else
+      dok.error('Unsupported precision of input tensor: ' .. input:type() 
+		   .. '  . Supported precision is Float/Double.')
+   end
+end
+
 local complex = require 'signal.complex'
 require 'signal.extramath'
 
@@ -9,23 +26,24 @@ signal.experimental = {}
 signal.incomplete = {}
 
 local function fftGeneric(inp, direction)
+   typecheck(inp)
    local input
    if inp:dim() == 1 then -- assume that phase is 0
-      input = torch.DoubleTensor(inp:size(1), 2):zero()
+      input = torch.Tensor(inp:size(1), 2):typeAs(inp):zero()
       input[{{}, 1}] = inp
    elseif inp:dim() == 2 and inp:size(2) == 2 then
-      input = inp:double()
+      input = inp
    else
       error('Input has to be 1D Tensor of size N (Real FFT with N points) or ' .. 
 	       '2D Tensor of size Nx2 (Complex FFT with N points)')
    end
    input = input:contiguous() -- make sure input is contiguous
-   local input_data = torch.data(input) -- double*
-   local input_data_cast = ffi.cast('fftw_complex*', input_data)
+   local input_data = torch.data(input) -- double* or float*
+   local input_data_cast = ffi.cast(fftw_complex_cast, input_data)
 
-   local output = torch.DoubleTensor(input:size(1), 2):zero();
+   local output = torch.Tensor(input:size(1), 2):zero();
    local output_data = torch.data(output);
-   local output_data_cast = ffi.cast('fftw_complex*', output_data)
+   local output_data_cast = ffi.cast(fftw_complex_cast, output_data)
 
    local flags = fftw.ESTIMATE
    local plan  = fftw.plan_dft_1d(input:size(1), input_data_cast, output_data_cast, direction, flags)
@@ -34,7 +52,7 @@ local function fftGeneric(inp, direction)
    if direction == fftw.BACKWARD then
       output = output:div(input:size(1)) -- normalize
    end
-   return output:typeAs(inp)
+   return output
 end
 
 --[[
@@ -65,69 +83,64 @@ end
    Input is a 1D real tensor
    Output is 2D complex tensor of size (input:size(1)/2 + 1, 2)
 ]]--
-function signal.rfft(inp)
-   local input
-   if inp:dim() == 1 then
-      input = inp:double()
-   else
-      error('Input has to be 1D Tensor of size N (Real FFT with N points)')
-   end
+function signal.rfft(input)
+   typecheck(input)
+   if input:dim() ~= 1 then error('Input has to be 1D Tensor of size N (Real FFT with N points)') end
    input = input:contiguous() -- make sure input is contiguous
-   local input_data = torch.data(input) -- double*
+   local input_data = torch.data(input) -- double*/float*
 
-   local output = torch.DoubleTensor(math.floor((input:size(1)/2) + 1), 2):zero();
+   local output = torch.Tensor(math.floor((input:size(1)/2) + 1), 2):zero();
    local output_data = torch.data(output);
-   local output_data_cast = ffi.cast('fftw_complex*', output_data)
+   local output_data_cast = ffi.cast(fftw_complex_cast, output_data)
 
    local flags = fftw.ESTIMATE
    local plan  = fftw.plan_dft_r2c_1d(input:size(1), input_data, output_data_cast, flags)
    fftw.execute(plan)
    fftw.destroy_plan(plan)
-   return output:typeAs(inp)
+   return output
 end
 
 --[[
    complex to real dft. This function is the exact inverse of signal.rfft
 ]]--
-function signal.irfft(inp)
-   local input
-   if inp:dim() == 2 and inp:size(2) == 2 then
-      input = inp:double()
-   else
+function signal.irfft(input)
+   typecheck(input)
+   if input:dim() ~= 2 or input:size(2) == 2 then
       error('Input has to be 2D Tensor of size Nx2 (Complex input with N points)')
    end
    input = input:contiguous() -- make sure input is contiguous
-   local input_data = torch.data(input) -- double*
-   local input_data_cast = ffi.cast('fftw_complex*', input_data)
+   local input_data = torch.data(input) -- double*/float*
+   local input_data_cast = ffi.cast(fftw_complex_cast, input_data)
 
-   local output = torch.DoubleTensor((input:size(1) - 1) * 2):zero();
+   local output = torch.Tensor((input:size(1) - 1) * 2):zero();
    local output_data = torch.data(output);
 
    local flags = fftw.ESTIMATE
    local plan  = fftw.plan_dft_c2r_1d(input:size(1), input_data_cast, output_data, flags)
    fftw.execute(plan)
    fftw.destroy_plan(plan)
-   return output:typeAs(inp)
+   return output
 end
 
 local function fft2Generic(inp, direction)
+   typecheck(inp)
    local input
    if inp:dim() == 2 then -- assume that phase is 0
-      input = torch.DoubleTensor(inp:size(1), inp:size(2), 2):zero()
+      input = torch.Tensor(inp:size(1), inp:size(2), 2):typeAs(inp):zero()
       input[{{}, {}, 1}] = inp
-   elseif inp:dim() == 3 and inp:size(3) == 2 then
-      input = inp:double()
+   elseif inp:dim() == 3 and inp:size(3) == 2 then  
+      input = inp
    else
       error('Input has to be 2D Tensor of size MxN (Real 2D FFT with MxN points) or ' .. 
 	       '3D Tensor of size MxNx2 (Complex FFT with MxN points')
    end      
    input = input:contiguous() -- make sure input is contiguous
    local input_data = torch.data(input) -- double*
-   local input_data_cast = ffi.cast('fftw_complex*', input_data)
+   local input_data_cast = ffi.cast(fftw_complex_cast, input_data)
 
-   local output = torch.DoubleTensor(input:size(1), input:size(2), 2):zero();
+   local output = torch.Tensor(input:size(1), input:size(2), 2):zero();
    local output_data = torch.data(output);
-   local output_data_cast = ffi.cast('fftw_complex*', output_data)
+   local output_data_cast = ffi.cast(fftw_complex_cast, output_data)
 
    local flags = fftw.ESTIMATE
    local plan  = fftw.plan_dft_2d(input:size(1), input:size(2), 
@@ -137,7 +150,7 @@ local function fft2Generic(inp, direction)
    if direction == fftw.BACKWARD then
       output = output:div(input:size(1) * input:size(2)) -- normalize
    end
-   return output:typeAs(inp)
+   return output
 end
 
 --[[
@@ -163,23 +176,24 @@ function signal.ifft2(input)
 end
 
 local function fft3Generic(inp, direction)
+   typecheck(input)
    local input
    if inp:dim() == 3 then -- assume that phase is 0
-      input = torch.DoubleTensor(inp:size(1), inp:size(2), input:size(3), 2):zero()
+      input = torch.Tensor(inp:size(1), inp:size(2), input:size(3), 2):typeAs(inp):zero()
       input[{{}, {}, {}, 1}] = inp
    elseif inp:dim() == 4 and inp:size(4) == 2 then
-      input = inp:double()
+      input = inp
    else
       error('Input has to be 3D Tensor of size MxNxP (Real 3D FFT with MxNxP points) or ' .. 
 	       '4D Tensor of size MxNxPx2 (Complex FFT with MxNxP points')
    end
    input = input:contiguous() -- make sure input is contiguous
-   local input_data = torch.data(input) -- double*
-   local input_data_cast = ffi.cast('fftw_complex*', input_data)
+   local input_data = torch.data(input) -- double*/float*
+   local input_data_cast = ffi.cast(fftw_complex_cast, input_data)
 
-   local output = torch.DoubleTensor(input:size(1), input:size(2), input:size(3), 2):zero();
+   local output = torch.Tensor(input:size(1), input:size(2), input:size(3), 2):zero();
    local output_data = torch.data(output);
-   local output_data_cast = ffi.cast('fftw_complex*', output_data)
+   local output_data_cast = ffi.cast(fftw_complex_cast, output_data)
 
    local flags = fftw.ESTIMATE
    local plan  = fftw.plan_dft_3d(input:size(1), input:size(2), input:size(3),
@@ -189,7 +203,7 @@ local function fft3Generic(inp, direction)
    if direction == fftw.BACKWARD then
       output = output:div(input:size(1) * input:size(2) * input:size(3)) -- normalize
    end
-   return output:typeAs(inp)
+   return output
 end
 
 --[[
@@ -342,13 +356,13 @@ end
    To make sure that the windows are not discontinuous at the edges, you can optionally apply a window preprocessor.
    The available window preprocessors are: hamming, hann, bartlett
 ]]--
-function signal.stft(inp, window_size, window_stride, window_type)
-   if inp:dim() ~= 1 then error('Need 1D Tensor input') end
-   local input = inp:double()
+function signal.stft(input, window_size, window_stride, window_type)
+   typecheck(input)
+   if input:dim() ~= 1 then error('Need 1D Tensor input') end   
    local length = input:size(1)
    local nwindows = math.floor(((length - window_size)/window_stride) + 1);
    local noutput  = window_size
-   local output   = torch.DoubleTensor(nwindows, noutput, 2):zero()
+   local output   = torch.Tensor(nwindows, noutput, 2):typeAs(input):zero()
    local window_index = 1
    for i=1,length,window_stride do
       if (i+window_size-1) > length then break; end
@@ -360,7 +374,7 @@ function signal.stft(inp, window_size, window_stride, window_type)
       output[window_index] = winout
       window_index = window_index + 1
    end
-   return output:typeAs(inp)
+   return output
 end
 
 --[[
@@ -370,13 +384,13 @@ end
    rfft is used for fourier transform, so only the positive frequencies are retained
    The available window preprocessors are: hamming, hann, bartlett
 ]]--
-function signal.rstft(inp, window_size, window_stride, window_type)
-   if inp:dim() ~= 1 then error('Need 1D Tensor input') end
-   local input = inp:double()
+function signal.rstft(input, window_size, window_stride, window_type)
+   typecheck(input)
+   if input:dim() ~= 1 then error('Need 1D Tensor input') end
    local length = input:size(1)
    local nwindows = math.floor(((length - window_size)/window_stride) + 1);
    local noutput  = math.floor(window_size/2 + 1);
-   local output   = torch.DoubleTensor(nwindows, noutput, 2):zero()
+   local output   = torch.Tensor(nwindows, noutput, 2):typeAs(input):zero()
    local window_index = 1
    for i=1,length,window_stride do
       if (i+window_size-1) > length then break; end
@@ -388,7 +402,7 @@ function signal.rstft(inp, window_size, window_stride, window_type)
       output[window_index] = winout    
       window_index = window_index + 1
    end
-   return output:typeAs(inp)
+   return output
 end
 
 --[[
@@ -397,6 +411,7 @@ end
    Also transposes the output, to have time on the X axis.
 ]]--
 function signal.spectrogram(inp, window_size, window_stride)
+   typecheck(inp)
    -- calculate stft
    local stftout = signal.rstft(inp, window_size, window_stride)
       -- calculate magnitude of signal and convert to dB to make it look prettier
@@ -485,6 +500,7 @@ end
    Output matches with matlab output
 ]]--
 function signal.cceps(x)
+   typecheck(x)
    --[[
       logh = log(abs(h)) + sqrt(-1)*rcunwrap(complex.angle(h));
       y = real(ifft(logh));
@@ -508,6 +524,7 @@ end
    Output matches with matlab output
 ]]--
 function signal.icceps(xhat,nd)
+   typecheck(xhat)
    if xhat:dim() ~= 1 then error('Input has to be 1D tensor') end
    nd = nd or 0
    local logh = signal.fft(xhat);
@@ -525,22 +542,21 @@ end
    Output matches with matlab output
 ]]--
 function signal.rceps(x)
+   typecheck(x)
    if x:dim() ~= 1 then error('Input has to be 1D tensor') end
    -- y=real(ifft(log(abs(fft(x)))));
    return complex.real(signal.ifft(torch.log(complex.abs(signal.fft(x)))))
 end
 
-local function dctGeneric(inp, direction)
-   local input
-   if inp:dim() == 1 then
-      input = inp:double()
-   else
+local function dctGeneric(input, direction)
+   typecheck(input)
+   if input:dim() ~= 1 then
       error('Input has to be 1D Tensor of size N (Real FFT with N points)')
    end
    input = input:contiguous() -- make sure input is contiguous
-   local input_data = torch.data(input) -- double*
+   local input_data = torch.data(input) -- double*/float*
    local output = input:clone():zero()
-   local output_data = torch.data(output) -- double*
+   local output_data = torch.data(output) -- double*/float*
    local flags = fftw.ESTIMATE
    local dcttype
    if direction == fftw.FORWARD then
@@ -554,7 +570,7 @@ local function dctGeneric(inp, direction)
    if direction == fftw.BACKWARD then
       output = output:div(2 * input:size(1)) -- normalize by 2n
    end
-   return output:typeAs(inp)   
+   return output
 end
 
 --[[
@@ -579,17 +595,15 @@ function signal.idct(input)
    return dctGeneric(input, fftw.BACKWARD)
 end
 
-local function dct2Generic(inp, direction)
-   local input
-   if inp:dim() == 2 then
-      input = inp:double()
-   else
+local function dct2Generic(input, direction)
+   typecheck(input)
+   if input:dim() ~= 2 then
       error('Input has to be 2D Tensor of size NxM (Real FFT with NxM points)')
    end
    input = input:contiguous() -- make sure input is contiguous
-   local input_data = torch.data(input) -- double*
+   local input_data = torch.data(input) -- double*/float*
    local output = input:clone():zero()
-   local output_data = torch.data(output) -- double*
+   local output_data = torch.data(output) -- double*/float*
    local flags = fftw.ESTIMATE
    local dcttype
    if direction == fftw.FORWARD then
@@ -604,7 +618,7 @@ local function dct2Generic(inp, direction)
    if direction == fftw.BACKWARD then
       output = output:div(2 * input:size(1) * 2 * input:size(2)) -- normalize by 2n * 2m
    end
-   return output:typeAs(inp)   
+   return output
 end
 
 --[[
@@ -629,17 +643,14 @@ function signal.idct2(input)
    return dct2Generic(input, fftw.BACKWARD)
 end
 
-local function dct3Generic(inp, direction)
-   local input
-   if inp:dim() == 3 then
-      input = inp:double()
-   else
+local function dct3Generic(input, direction)
+   if input:dim() ~= 3 then
       error('Input has to be 3D Tensor of size NxM (Real FFT with NxMxP points)')
    end
    input = input:contiguous() -- make sure input is contiguous
-   local input_data = torch.data(input) -- double*
+   local input_data = torch.data(input) -- double*/float*
    local output = input:clone():zero()
-   local output_data = torch.data(output) -- double*
+   local output_data = torch.data(output) -- double*/float*
    local flags = fftw.ESTIMATE
    local dcttype
    if direction == fftw.FORWARD then
@@ -656,7 +667,7 @@ local function dct3Generic(inp, direction)
       -- normalize by 2n * 2m * 2p
       output = output:div(2 * input:size(1) * 2 * input:size(2) * 2 * input:size(3))
    end
-   return output:typeAs(inp)   
+   return output
 end
 
 --[[
@@ -688,6 +699,7 @@ end
    Output matches with matlab output
 ]]--
 function signal.hilbert(xr)
+   typecheck(xr)
    if xr:dim() ~= 1 then error('Input has to be 1D tensor') end
    local x = signal.fft(xr)
    local h = xr:clone():zero():contiguous()

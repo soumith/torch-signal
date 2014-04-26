@@ -163,5 +163,12 @@ end
 
 
 mytester:add(signaltest)
+
+print('Running tests at float precision')
+torch.setdefaulttensortype('torch.FloatTensor')
+mytester:run()
+
+print('Running tests at double precision')
+torch.setdefaulttensortype('torch.DoubleTensor')
 mytester:run()
 
