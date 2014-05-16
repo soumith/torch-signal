@@ -1,5 +1,13 @@
 torch-signal
 ============
+- Fourier Transforms (real & complex) (1D, 2D, 3D)
+- Cosine Transforms (1D, 2D, 3D)
+- Short-time Fourier Transforms
+- Spectrogram
+- Hilbert Transform
+- Complex Cepstral Analysis, Real Cepstrums
+ 
+
 Quickstart
 ----------
 Install fftw3 on your OS:
