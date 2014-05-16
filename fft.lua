@@ -1,10 +1,12 @@
 local ffi  = require 'ffi'
 local fftw3 = require 'fftw3'
+local complex = require 'signal.complex'
+local xmath = require 'signal.extramath'
+
+local signal = {}
 
 local fftw = fftw3
 local fftw_complex_cast = 'fftw_complex*'
-
-local signal = signal or {}
 
 function typecheck(input)
    if input:type() == 'torch.FloatTensor' then
@@ -18,9 +20,6 @@ function typecheck(input)
 		   .. '  . Supported precision is Float/Double.')
    end
 end
-
-local complex = require 'signal.complex'
-require 'signal.extramath'
 
 local function fftGeneric(inp, direction)
    typecheck(inp)
@@ -463,7 +462,7 @@ function signal.rcunwrap(x)
    local nh = math.floor((n+1)/2); -- since n is positive, nh always rounds towards zero
    local y = signal.unwrap(x):contiguous()
    local ydata = torch.data(y)
-   local nd = math.round((y[nh+1]/math.pi))
+   local nd = xmath.round((y[nh+1]/math.pi))
    if nd == 0 then return y,nd; end
    for i=0,y:size(1)-1 do
       ydata[i] = ydata[i] - (math.pi * nd * i / nh)

@@ -5,7 +5,7 @@
 All functions in here expect either a 2D Nx2 Complex tensor
 
 
-<a class="entityLink" href="https://github.com/soumith/torch-signal/blob/474c3728f333825e1d464470c74d2ea63a47df7d/complex.lua#L149">[src]</a>
+<a class="entityLink" href="https://github.com/soumith/torch-signal/blob/272138111678b6da3f3a873204b4cb14aaef2e37/complex.lua#L149">[src]</a>
 <a name="signal.complex.poly"></a>
 
 

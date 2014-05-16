@@ -1,16 +1,16 @@
 
-<a class="entityLink" href="https://github.com/soumith/torch-signal/blob/474c3728f333825e1d464470c74d2ea63a47df7d/extramath.lua#L3">[src]</a>
-<a name="signal.math.round"></a>
 
+### extramath.lua ###
 
-### signal.math.round(num) ###
+some extra math functions
 
-adds some extra functions to the math table
 
 
 #### Undocumented methods ####
 
-<a name="signal.math.log2"></a>
- * `signal.math.log2(x)`
-<a name="signal.math.nextpow2"></a>
- * `signal.math.nextpow2(x)`
+<a name="signal.xmath.round"></a>
+ * `signal.xmath.round(num)`
+<a name="signal.xmath.log2"></a>
+ * `signal.xmath.log2(x)`
+<a name="signal.xmath.nextpow2"></a>
+ * `signal.xmath.nextpow2(x)`

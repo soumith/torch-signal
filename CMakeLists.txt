@@ -8,5 +8,7 @@ ENDIF()
 FIND_PACKAGE(Torch REQUIRED)
 
 FILE(GLOB luasrc *.lua)
-ADD_TORCH_PACKAGE(signal "" "${luasrc}" "Signal Processing Toolbox")
+#FILE(GLOB src *.c)
+SET(src "init.c")
+ADD_TORCH_PACKAGE(signal "${src}" "${luasrc}" "Signal Processing Toolbox")
 

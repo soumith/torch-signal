@@ -1,0 +1,8 @@
+
+<a class="entityLink" href="https://github.com/soumith/torch-signal/blob/272138111678b6da3f3a873204b4cb14aaef2e37/convolution.lua#L6">[src]</a>
+<a name="signal.conv1d"></a>
+
+
+### signal.conv1d(input, kernel, stride) ###
+
+1D valid convolution with stride
