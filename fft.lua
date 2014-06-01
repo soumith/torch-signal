@@ -172,10 +172,10 @@ function signal.ifft2(input)
 end
 
 local function fft3Generic(inp, direction)
-   typecheck(input)
+   typecheck(inp)
    local input
    if inp:dim() == 3 then -- assume that phase is 0
-      input = torch.Tensor(inp:size(1), inp:size(2), input:size(3), 2):typeAs(inp):zero()
+      input = torch.Tensor(inp:size(1), inp:size(2), inp:size(3), 2):typeAs(inp):zero()
       input[{{}, {}, {}, 1}] = inp
    elseif inp:dim() == 4 and inp:size(4) == 2 then
       input = inp
