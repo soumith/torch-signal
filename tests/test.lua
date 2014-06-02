@@ -64,6 +64,52 @@ function signaltest.fft2()
    end
 end
 
+function signaltest.rfft()
+   local input = torch.randn(100)
+   local output1 = signal.fft(input)
+   local output2 = signal.rfft(input)
+   for i=1,output1:size(1)/2+1 do
+      asserteq(output1[i][1], output2[i][1], 'error in rfft')
+      asserteq(output1[i][2], output2[i][2], 'error in rfft')
+   end
+end
+
+function signaltest.rfft2()
+   local input = torch.randn(100, 50)
+   local output1 = signal.fft2(input)
+   local output2 = signal.rfft2(input)
+   for i=1,output1:size(1) do
+      for j=1,output1:size(2)/2+1 do
+	 asserteq(output1[i][j][1], output2[i][j][1], 'error in rfft2', 1e-4)
+	 asserteq(output1[i][j][2], output2[i][j][2], 'error in rfft2', 1e-4)
+      end
+   end
+end
+
+function signaltest.irfft()
+   local input = torch.randn(100)
+   local output1 = signal.fft(input)
+   local outputi1 = signal.ifft(output1)
+   local output2 = signal.rfft(input)
+   local outputi2 = signal.irfft(output2)
+   for i=1,outputi1:size(1) do
+      asserteq(outputi1[i][1], outputi2[i], 'error in irfft')
+   end
+end
+
+function signaltest.irfft2()
+   local input = torch.randn(100, 50)
+   local output1 = signal.fft2(input)
+   local outputi1 = signal.ifft2(output1)
+   local output2 = signal.rfft2(input)
+   local outputi2 = signal.irfft2(output2)
+   for i=1,outputi1:size(1) do
+      for j=1,outputi1:size(2) do
+	 asserteq(outputi1[i][j][1], outputi2[i][j], 'error in irfft2')
+      end
+   end
+end
+
 function signaltest.dct()
    local inp=torch.randn(10000)
 

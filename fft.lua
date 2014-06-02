@@ -92,7 +92,7 @@ function signal.rfft(input)
    local flags = fftw.ESTIMATE
    local plan  = fftw.plan_dft_r2c_1d(input:size(1), input_data, output_data_cast, flags)
    fftw.execute(plan)
-   fftw.destroy_plan(plan)
+   fftw.destroy_plan(plan)   
    return output
 end
 
@@ -101,7 +101,7 @@ end
 ]]--
 function signal.irfft(input)
    typecheck(input)
-   if input:dim() ~= 2 or input:size(2) == 2 then
+   if input:dim() ~= 2 or input:size(2) ~= 2 then
       error('Input has to be 2D Tensor of size Nx2 (Complex input with N points)')
    end
    input = input:contiguous() -- make sure input is contiguous
@@ -112,9 +112,10 @@ function signal.irfft(input)
    local output_data = torch.data(output);
 
    local flags = fftw.ESTIMATE
-   local plan  = fftw.plan_dft_c2r_1d(input:size(1), input_data_cast, output_data, flags)
+   local plan  = fftw.plan_dft_c2r_1d((input:size(1) - 1) * 2, input_data_cast, output_data, flags)
    fftw.execute(plan)
-   fftw.destroy_plan(plan)
+   fftw.destroy_plan(plan)   
+   output = output:div((input:size(1) - 1) * 2) -- normalize
    return output
 end
 
@@ -169,6 +170,52 @@ end
 ]]--
 function signal.ifft2(input)
    return fft2Generic(input, fftw.BACKWARD)
+end
+
+--[[
+ real to complex 2D dft.
+   This function retains only the positive frequencies.
+   Input is a 2D real tensor
+   Output is 3D complex tensor of size (input:size(1)/2 + 1, input:size(2)/2 + 1,  2)
+]]--
+function signal.rfft2(input)
+   typecheck(input)
+   if input:dim() ~= 2 then error('Input has to be 2D Tensor of size NxM (Real FFT with NxM points)') end
+   input = input:contiguous() -- make sure input is contiguous
+   local input_data = torch.data(input)
+
+   local output = torch.Tensor(input:size(1), math.floor((input:size(2)/2) + 1), 2):typeAs(input):zero();
+   local output_data = torch.data(output);
+   local output_data_cast = ffi.cast(fftw_complex_cast, output_data)
+
+   local flags = fftw.ESTIMATE
+   local plan  = fftw.plan_dft_r2c_2d(input:size(1), input:size(2), input_data, output_data_cast, flags)
+   fftw.execute(plan)
+   fftw.destroy_plan(plan)
+   return output
+end
+
+--[[
+   2D complex to real dft. This function is the exact inverse of signal.rfft2
+]]--
+function signal.irfft2(input)
+   typecheck(input)
+   if input:dim() ~= 3 or input:size(3) ~= 2 then
+      error('Input has to be 3D Tensor of size NxMx2 (Complex input with NxM points)')
+   end
+   input = input:contiguous() -- make sure input is contiguous
+   local input_data = torch.data(input)
+   local input_data_cast = ffi.cast(fftw_complex_cast, input_data)
+
+   local output = torch.Tensor(input:size(1), (input:size(2) - 1) * 2):typeAs(input):zero();
+   local output_data = torch.data(output);
+
+   local flags = fftw.ESTIMATE
+   local plan  = fftw.plan_dft_c2r_2d(input:size(1), (input:size(2) - 1) * 2, input_data_cast, output_data, flags)
+   fftw.execute(plan)
+   fftw.destroy_plan(plan)
+   output = output:div(input:size(1) * (input:size(2) - 1) * 2) -- normalize
+   return output
 end
 
 local function fft3Generic(inp, direction)
