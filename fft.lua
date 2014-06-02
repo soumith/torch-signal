@@ -99,7 +99,7 @@ end
 --[[
    complex to real dft. This function is the exact inverse of signal.rfft
 ]]--
-function signal.irfft(input)
+function signal.irfft(input, size)
    typecheck(input)
    if input:dim() ~= 2 or input:size(2) ~= 2 then
       error('Input has to be 2D Tensor of size Nx2 (Complex input with N points)')
@@ -107,15 +107,15 @@ function signal.irfft(input)
    input = input:contiguous() -- make sure input is contiguous
    local input_data = torch.data(input)
    local input_data_cast = ffi.cast(fftw_complex_cast, input_data)
-
-   local output = torch.Tensor((input:size(1) - 1) * 2):typeAs(input):zero();
+   local size = size or (input:size(1) - 1) * 2
+   local output = torch.Tensor(size):typeAs(input):zero();
    local output_data = torch.data(output);
 
    local flags = fftw.ESTIMATE
-   local plan  = fftw.plan_dft_c2r_1d((input:size(1) - 1) * 2, input_data_cast, output_data, flags)
+   local plan  = fftw.plan_dft_c2r_1d(size, input_data_cast, output_data, flags)
    fftw.execute(plan)
    fftw.destroy_plan(plan)   
-   output = output:div((input:size(1) - 1) * 2) -- normalize
+   output = output:div(size) -- normalize
    return output
 end
 
@@ -198,7 +198,7 @@ end
 --[[
    2D complex to real dft. This function is the exact inverse of signal.rfft2
 ]]--
-function signal.irfft2(input)
+function signal.irfft2(input, size)
    typecheck(input)
    if input:dim() ~= 3 or input:size(3) ~= 2 then
       error('Input has to be 3D Tensor of size NxMx2 (Complex input with NxM points)')
@@ -206,15 +206,15 @@ function signal.irfft2(input)
    input = input:contiguous() -- make sure input is contiguous
    local input_data = torch.data(input)
    local input_data_cast = ffi.cast(fftw_complex_cast, input_data)
-
-   local output = torch.Tensor(input:size(1), (input:size(2) - 1) * 2):typeAs(input):zero();
+   local size = size or (input:size(2) - 1) * 2
+   local output = torch.Tensor(input:size(1), size):typeAs(input):zero();
    local output_data = torch.data(output);
 
    local flags = fftw.ESTIMATE
-   local plan  = fftw.plan_dft_c2r_2d(input:size(1), (input:size(2) - 1) * 2, input_data_cast, output_data, flags)
+   local plan  = fftw.plan_dft_c2r_2d(input:size(1), size, input_data_cast, output_data, flags)
    fftw.execute(plan)
    fftw.destroy_plan(plan)
-   output = output:div(input:size(1) * (input:size(2) - 1) * 2) -- normalize
+   output = output:div(input:size(1) * size) -- normalize
    return output
 end
 
