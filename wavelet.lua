@@ -27,6 +27,7 @@ end
    return the phi and psi functions of a daubechies wavelet
 ]]
 function wavelet.daubechies1d()
+   error('implementation not finished')
    -- calculate kernel
    -- phi(r) =  ho * phi(2r)    + h1 * phi(2r- 1) + h2 * phi(2r - 2) + h3 * phi(2r - 3)
    -- psi(r) = -ho * phi(2r- 1) + h1 * phi(2r)    - h2 * phi(2r + 1) + h3 * phi(2r + 2)
