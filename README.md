@@ -1,5 +1,7 @@
 torch-signal
 ============
+A signal processing toolbox for Torch-7
+
 - Fourier Transforms (real & complex) (1D, 2D, 3D)
 - Cosine Transforms (1D, 2D, 3D)
 - Short-time Fourier Transforms
