@@ -8,7 +8,7 @@ local signal = {}
 local fftw = fftw3
 local fftw_complex_cast = 'fftw_complex*'
 
-function typecheck(input)
+local function typecheck(input)
    if input:type() == 'torch.FloatTensor' then
       fftw = fftw3.float
       fftw_complex_cast = 'fftwf_complex*'
