@@ -1,42 +1,27 @@
-                   The Romantic WTF public license.
-                   --------------------------------
-                   a.k.a. version "<3" or simply v3
+Copyright (c) 2014, Soumith Chintala
+All rights reserved.
 
-           Dear user,
+Redistribution and use in source and binary forms, with or without modification,
+are permitted provided that the following conditions are met:
 
-           The Romantic WTF Public License a.k.a version "<3"
+* Redistributions of source code must retain the above copyright notice, this
+  list of conditions and the following disclaimer.
 
-                                            \ 
-                                             '.,__
-                                          \  /
-                                           '/,__
-                                           /
-                                          /
-                                         /
-                      has been          / released
-                 ~ ~ ~ ~ ~ ~ ~ ~       ~ ~ ~ ~ ~ ~ ~ ~ 
-               under  the  Romantic   WTF Public License.
-              ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~`,´ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ 
-              I hereby grant you an irrevocable license to
-               ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
-                 do what the gentle caress you want to
-                      ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~  
-                          with   this   lovely
-                             ~ ~ ~ ~ ~ ~ ~ ~ 
-                              / license.
-                             /  ~ ~ ~ ~
-                            /    Love,
-                      #    /      '.'
-                      #######      ·
-                      #####
-                      ###
-                      #
+* Redistributions in binary form must reproduce the above copyright notice, this
+  list of conditions and the following disclaimer in the documentation and/or
+  other materials provided with the distribution.
 
-           -- Soumith Chintala
+* Neither the name of the {organization} nor the names of its
+  contributors may be used to endorse or promote products derived from
+  this software without specific prior written permission.
 
-
-           P.S.: Even though I poured my heart into this work, 
-                 I _cannot_ provide any warranty regarding 
-                 its fitness for _any_ purpose. You
-                 acknowledge that I will not be held liable
-                 for any damage its use could incur.
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
+ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
