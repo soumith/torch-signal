@@ -111,7 +111,7 @@ function signal.irfft(input, size)
    local output = torch.Tensor(size):typeAs(input):zero();
    local output_data = torch.data(output);
 
-   local flags = fftw.ESTIMATE
+   local flags = fftw.ESTIMATE + fftw.PRESERVE_INPUT
    local plan  = fftw.plan_dft_c2r_1d(size, input_data_cast, output_data, flags)
    fftw.execute(plan)
    fftw.destroy_plan(plan)   
@@ -203,7 +203,7 @@ function signal.irfft2(input, size)
    if input:dim() ~= 3 or input:size(3) ~= 2 then
       error('Input has to be 3D Tensor of size NxMx2 (Complex input with NxM points)')
    end
-   input = input:contiguous() -- make sure input is contiguous
+   input = input:clone():contiguous() -- make sure input is contiguous and preserved
    local input_data = torch.data(input)
    local input_data_cast = ffi.cast(fftw_complex_cast, input_data)
    local size = size or (input:size(2) - 1) * 2
