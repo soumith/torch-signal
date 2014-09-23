@@ -91,9 +91,15 @@ function signaltest.irfft()
    local output1 = signal.fft(input)
    local outputi1 = signal.ifft(output1)
    local output2 = signal.rfft(input)
+   local output2_copy = output2:clone()
    local outputi2 = signal.irfft(output2)
    for i=1,outputi1:size(1) do
       asserteq(outputi1[i][1], outputi2[i], 'error in irfft')
+   end
+   for i=1,output2:size(1) do
+      for j=1,output2:size(2) do
+         asserteq(output2[i][j], output2_copy[i][j], 'error in preserving of irfft input')
+      end
    end
 end
 
@@ -102,10 +108,18 @@ function signaltest.irfft2()
    local output1 = signal.fft2(input)
    local outputi1 = signal.ifft2(output1)
    local output2 = signal.rfft2(input)
+   local output2_copy = output2:clone()
    local outputi2 = signal.irfft2(output2)
    for i=1,outputi1:size(1) do
       for j=1,outputi1:size(2) do
 	 asserteq(outputi1[i][j][1], outputi2[i][j], 'error in irfft2')
+      end
+   end
+   for i=1,output2:size(1) do
+      for j=1,output2:size(2) do
+         for k=1,output2:size(3) do
+             asserteq(output2[i][j][k], output2_copy[i][j][k], 'error in preserving of irfft2 input')
+         end
       end
    end
 end
