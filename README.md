@@ -22,6 +22,8 @@ brew install fftw
 Ubuntu:
 ```bash
 sudo apt-get install libfftw3
+OR
+sudo apt-get install libfftw3-3
 ```
   
 Install torch-signal:
