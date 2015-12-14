@@ -409,7 +409,7 @@ function signal.stft(input, window_size, window_stride, window_type)
    local window_index = 1
    for i=1,length,window_stride do
       if (i+window_size-1) > length then break; end
-      local window = input[{{i,i+window_size-1}}]
+      local window = input[{{i,i+window_size-1}}]:clone()
       -- apply preprocessing
       apply_window(window, window_type)
       -- fft
