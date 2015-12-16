@@ -9,7 +9,6 @@ for k,v in pairs(convolution) do
    signal[k] = v
 end
 
-
 local fft = require 'signal.fft'
 -- fft functions go into the root signal namespace
 for k,v in pairs(fft) do
@@ -18,7 +17,6 @@ end
 
 signal.wavelet = require 'signal.wavelet'
 
-
-
+signal.complex = require 'signal.complex'
 
 return signal
