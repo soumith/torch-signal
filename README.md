@@ -1,5 +1,4 @@
-torch-signal
-============
+# torch-signal
 A signal processing toolbox for Torch-7
 
 - Fourier Transforms (real & complex) (1D, 2D, 3D)
@@ -10,8 +9,7 @@ A signal processing toolbox for Torch-7
 - Complex Cepstral Analysis, Real Cepstrums
  
 
-Quickstart
-----------
+## Quickstart
 Install fftw3 on your OS:
   
 OSX (Homebrew):
