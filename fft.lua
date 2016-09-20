@@ -271,6 +271,54 @@ function signal.ifft3(input)
    return fft3Generic(input, fftw.BACKWARD)
 end
 
+local function fftMGeneric(inp, direction, rank)
+   typecheck(inp)
+   local input
+   if inp:dim() == 2 then -- assume that phase is 0
+      input = torch.Tensor(inp:size(1), inp:size(2), 2):typeAs(inp):zero()
+      input[{{}, {}, 1}] = inp
+   elseif inp:dim() == 3 and inp:size(3) == 2 then
+      input = inp
+   else
+      error('Input has to be 2D Tensor of size NxM (N real FFTs with M points) or ' ..
+	       '3D Tensor of size NxMx2 (N complex FFTs with M points)')
+   end
+   input = input:contiguous() -- make sure input is contiguous
+   local input_data = torch.data(input)
+   local input_data_cast = ffi.cast(fftw_complex_cast, input_data)
+
+   local output = torch.Tensor(input:size(1), input:size(2), 2):typeAs(input):zero();
+   local output_data = torch.data(output);
+   local output_data_cast = ffi.cast(fftw_complex_cast, output_data)
+
+   local howmany = inp:size(1)
+   local stride = 1
+   local dist = inp:size(2)
+   local n = ffi.new("int[1]", inp:size(2))
+
+   local flags = fftw.ESTIMATE
+   local plan  = fftw.plan_many_dft(
+     rank, n, howmany,
+     input_data_cast, nil, stride, dist,
+     output_data_cast, nil, stride, dist,
+     direction, flags)
+   fftw.execute(plan)
+   fftw.destroy_plan(plan)
+   if direction == fftw.BACKWARD then
+     output = output:div(input:size(2)) -- normalize
+   end
+   return output
+end
+
+function signal.fftM(input)
+   return fftMGeneric(input, fftw.FORWARD, 1)
+end
+
+function signal.ifftM(input)
+   return fftMGeneric(input, fftw.BACKWARD, 1)
+end
+
+
 --[[
    returns an L-point Hann window in a 1D tensor. L must be a positive integer.
    When 'periodic' is specified, hann computes a length L+1 window and returns the first L points.
