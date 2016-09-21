@@ -2,8 +2,8 @@ require 'xlua'
 local signal = require 'signal'
 
 function test_fftM(A)
-    Af = signal.fftM(A)
-    Aif = signal.ifftM(A)
+    local Af = signal.fftM(A)
+    local Aif = signal.ifftM(A)
     for i=1,A:size(1) do
         assert((Af[i] - signal.fft(A[i])):norm() == 0)
         assert((Aif[i] - signal.ifft(A[i])):norm() == 0)
