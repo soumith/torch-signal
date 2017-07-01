@@ -16,7 +16,7 @@ local function typecheck(input)
       fftw = fftw3
       fftw_complex_cast = 'fftw_complex*'
    else
-      dok.error('Unsupported precision of input tensor: ' .. input:type() 
+      dok.error('Unsupported precision of input tensor: ' .. input:type()
 		   .. '  . Supported precision is Float/Double.')
    end
 end
@@ -30,7 +30,7 @@ local function fftGeneric(inp, direction)
    elseif inp:dim() == 2 and inp:size(2) == 2 then
       input = inp
    else
-      error('Input has to be 1D Tensor of size N (Real FFT with N points) or ' .. 
+      error('Input has to be 1D Tensor of size N (Real FFT with N points) or ' ..
 	       '2D Tensor of size Nx2 (Complex FFT with N points)')
    end
    input = input:contiguous() -- make sure input is contiguous
@@ -55,7 +55,7 @@ end
    1D FFT
    Takes Real inputs (1D tensor of N points)
    or complex inputs 2D tensor of (Nx2) size for N points
-   
+
    Output matches with matlab output
 ]]--
 function signal.fft(input)
@@ -92,7 +92,7 @@ function signal.rfft(input)
    local flags = fftw.ESTIMATE
    local plan  = fftw.plan_dft_r2c_1d(input:size(1), input_data, output_data_cast, flags)
    fftw.execute(plan)
-   fftw.destroy_plan(plan)   
+   fftw.destroy_plan(plan)
    return output
 end
 
@@ -114,7 +114,7 @@ function signal.irfft(input, size)
    local flags = fftw.ESTIMATE + fftw.PRESERVE_INPUT
    local plan  = fftw.plan_dft_c2r_1d(size, input_data_cast, output_data, flags)
    fftw.execute(plan)
-   fftw.destroy_plan(plan)   
+   fftw.destroy_plan(plan)
    output = output:div(size) -- normalize
    return output
 end
@@ -125,12 +125,12 @@ local function fft2Generic(inp, direction)
    if inp:dim() == 2 then -- assume that phase is 0
       input = torch.Tensor(inp:size(1), inp:size(2), 2):typeAs(inp):zero()
       input[{{}, {}, 1}] = inp
-   elseif inp:dim() == 3 and inp:size(3) == 2 then  
+   elseif inp:dim() == 3 and inp:size(3) == 2 then
       input = inp
    else
-      error('Input has to be 2D Tensor of size MxN (Real 2D FFT with MxN points) or ' .. 
+      error('Input has to be 2D Tensor of size MxN (Real 2D FFT with MxN points) or ' ..
 	       '3D Tensor of size MxNx2 (Complex FFT with MxN points')
-   end      
+   end
    input = input:contiguous() -- make sure input is contiguous
    local input_data = torch.data(input)
    local input_data_cast = ffi.cast(fftw_complex_cast, input_data)
@@ -140,7 +140,7 @@ local function fft2Generic(inp, direction)
    local output_data_cast = ffi.cast(fftw_complex_cast, output_data)
 
    local flags = fftw.ESTIMATE
-   local plan  = fftw.plan_dft_2d(input:size(1), input:size(2), 
+   local plan  = fftw.plan_dft_2d(input:size(1), input:size(2),
 				  input_data_cast, output_data_cast, direction, flags)
    fftw.execute(plan)
    fftw.destroy_plan(plan)
@@ -227,7 +227,7 @@ local function fft3Generic(inp, direction)
    elseif inp:dim() == 4 and inp:size(4) == 2 then
       input = inp
    else
-      error('Input has to be 3D Tensor of size MxNxP (Real 3D FFT with MxNxP points) or ' .. 
+      error('Input has to be 3D Tensor of size MxNxP (Real 3D FFT with MxNxP points) or ' ..
 	       '4D Tensor of size MxNxPx2 (Complex FFT with MxNxP points')
    end
    input = input:contiguous() -- make sure input is contiguous
@@ -318,6 +318,76 @@ function signal.ifftM(input)
    return fftMGeneric(input, fftw.BACKWARD, 1)
 end
 
+function signal.rfftM(input)
+   typecheck(input)
+
+   if input:dim() ~= 2 then
+      error('Input has to be 2D tensor of size NxM (N real FFTs with M points).')
+   end
+   input = input:contiguous()
+   local input_data = torch.data(input)
+
+   local output = input.new(
+      input:size(1),
+      math.floor(1 + input:size(2) / 2),
+      2):zero()
+   local output_data = torch.data(output)
+   local output_data_cast = ffi.cast(fftw_complex_cast, output_data)
+
+   local rank = 1  -- computing 1d transforms
+   local n = ffi.new('int[1]', input:size(2))
+   local howmany = input:size(1)
+   local idist = 1
+   local odist = 1
+   local istride = input:size(2)
+   local ostride = output:size(2)
+   local flags = fftw.ESTIMATE
+   local plan = fftw.plan_many_dft_r2c(
+      1, n, input:size(1),
+      input_data, nil, 1, input:size(2),
+      output_data_cast, nil, 1, output:size(2),
+      flags)
+   fftw.execute(plan)
+   fftw.destroy_plan(plan)
+   return output
+end
+
+function signal.irfftM(input)
+   typecheck(input)
+
+   if input:dim() ~= 3 or input:size(3) ~= 2 then
+      error('Input has to be 3D Tensor of size Nx(2*(M-1))x2')
+   end
+   input = input:contiguous()
+   local input_data = torch.data(input)
+   local input_data_cast = ffi.cast(fftw_complex_cast, input_data)
+
+   local output = input.new(input:size(1), 2 * (input:size(2) - 1)):zero()
+   local output_data = torch.data(output)
+
+   local rank = 1
+   local n = ffi.new('int[1]', output:size(2))
+   local howmany = input:size(1)
+   local idist = 1
+   local odist = 1
+   local istride = input:size(2)
+   local ostride = output:size(2)
+   local flags = fftw.ESTIMATE + fftw.PRESERVE_INPUT
+
+   local plan = fftw.plan_many_dft_c2r(
+      rank, n, howmany,
+      input_data_cast, nil,
+      idist, istride,
+      output_data, nil,
+      odist, ostride,
+      flags)
+   fftw.execute(plan)
+   fftw.destroy_plan(plan)
+
+   output:div(output:size(2)) --normalize
+
+   return output
+end
 
 --[[
    returns an L-point Hann window in a 1D tensor. L must be a positive integer.
@@ -330,7 +400,7 @@ function signal.hann(L, flag)
    if flag == 'periodic' then
       L = L + 1
    end
-   local N = L - 1   
+   local N = L - 1
    local out = torch.zeros(L)
    local odata = torch.data(out)
    for i=0,N do
@@ -341,11 +411,11 @@ function signal.hann(L, flag)
       return out[{{1,L-1}}]
    else
       return out
-   end      
+   end
 end
 
 --[[
-   returns an N-point Blackman window in a 1D tensor. 
+   returns an N-point Blackman window in a 1D tensor.
    N must be a positive integer.
    When 'periodic' is specified, computes a length N+1 window and returns the first N points.
    flag: 'periodic' or 'symmetric'. 'symmetric' is default
@@ -368,9 +438,9 @@ function signal.blackman(N, flag)
    local out = torch.zeros(N)
    local odata = torch.data(out)
    for i=0,M-1 do
-      odata[i] = 
-	 0.42 
-	 - 0.5 * math.cos(2*math.pi*i/(N-1)) 
+      odata[i] =
+	 0.42
+	 - 0.5 * math.cos(2*math.pi*i/(N-1))
 	 + 0.08 * math.cos(4*math.pi*i/(N-1))
    end
    for i=M,N-1 do
@@ -382,18 +452,18 @@ function signal.blackman(N, flag)
       return out[{{1,N-1}}]
    else
       return out
-   end      
+   end
 end
 
 --[[
-   returns an N-point minimum 4-term Blackman-Harris window in a 1D tensor. 
+   returns an N-point minimum 4-term Blackman-Harris window in a 1D tensor.
    The window is minimum in the sense that its maximum sidelobes are minimized.
-   N must be a positive integer.   
+   N must be a positive integer.
    flag: 'periodic' or 'symmetric'. 'symmetric' is default
 
    Output matches with matlab output
 ]]--
-function signal.blackmanharris(N, flag)   
+function signal.blackmanharris(N, flag)
    local a0 = 0.35875
    local a1 = 0.48829
    local a2 = 0.14128
@@ -407,7 +477,7 @@ function signal.blackmanharris(N, flag)
       local c3 = 6 * math.pi / N
       for i=0,N-1 do
 	 odata[i] = a0 - a1*cos(c1*i) + a2*cos(c2*i) - a3*cos(c3*i)
-      end      
+      end
    else
       local c1 = 2 * math.pi / (N-1)
       local c2 = 4 * math.pi / (N-1)
@@ -449,7 +519,7 @@ end
 ]]--
 function signal.stft(input, window_size, window_stride, window_type)
    typecheck(input)
-   if input:dim() ~= 1 then error('Need 1D Tensor input') end   
+   if input:dim() ~= 1 then error('Need 1D Tensor input') end
    local length = input:size(1)
    local nwindows = math.floor(((length - window_size)/window_stride) + 1);
    local noutput  = window_size
@@ -490,7 +560,7 @@ function signal.rstft(input, window_size, window_stride, window_type)
       apply_window(window, window_type)
       -- fft
       local winout = signal.rfft(window)
-      output[window_index] = winout    
+      output[window_index] = winout
       window_index = window_index + 1
    end
    return output
@@ -518,9 +588,9 @@ end
 
 
 --[[
-   Correct phase angles to produce smoother phase plots   
+   Correct phase angles to produce smoother phase plots
    Unwrap radian phases by adding multiples of 2*pi as appropriate to
-   remove jumps greater than **tol**. **tol** defaults to pi.   
+   remove jumps greater than **tol**. **tol** defaults to pi.
 
    Output matches with matlab output
 ]]--
@@ -595,9 +665,9 @@ function signal.cceps(x)
    --[[
       logh = log(abs(h)) + sqrt(-1)*rcunwrap(complex.angle(h));
       y = real(ifft(logh));
-   ]]--   
-   if not(x:dim() == 1 or (x:dim() == 2 and x:size(2) == 2)) then 
-      error('Input has to be 1D tensor or Nx2 2D tensor') 
+   ]]--
+   if not(x:dim() == 1 or (x:dim() == 2 and x:size(2) == 2)) then
+      error('Input has to be 1D tensor or Nx2 2D tensor')
    end
    local h = signal.fft(x);
    local logh = h:clone();
@@ -654,7 +724,7 @@ local function dctGeneric(input, direction)
       dcttype = fftw.r2r_kind(fftw.REDFT10)
    else
       dcttype = fftw.r2r_kind(fftw.REDFT01)
-   end   
+   end
    local plan = fftw.plan_r2r_1d(input:size(1), input_data, output_data, dcttype, flags)
    fftw.execute(plan)
    fftw.destroy_plan(plan)
@@ -668,7 +738,7 @@ end
    1D Discrete Cosine Transform (DCT)
    Takes Real inputs (1D tensor of N points)
 
-   To see what is exactly computed, see section REDFT10 over here: 
+   To see what is exactly computed, see section REDFT10 over here:
    http://www.fftw.org/doc/1d-Real_002deven-DFTs-_0028DCTs_0029.html
 ]]--
 function signal.dct(input)
@@ -679,7 +749,7 @@ end
    inverse 1D Discrete Cosine Transform (DCT)
    Takes Real inputs (1D tensor of N points)
 
-   To see what is exactly computed, see section REDFT01 over here: 
+   To see what is exactly computed, see section REDFT01 over here:
    http://www.fftw.org/doc/1d-Real_002deven-DFTs-_0028DCTs_0029.html
 ]]--
 function signal.idct(input)
@@ -701,8 +771,8 @@ local function dct2Generic(input, direction)
       dcttype = fftw.r2r_kind(fftw.REDFT10)
    else
       dcttype = fftw.r2r_kind(fftw.REDFT01)
-   end   
-   local plan = fftw.plan_r2r_2d(input:size(1), input:size(2), 
+   end
+   local plan = fftw.plan_r2r_2d(input:size(1), input:size(2),
 				 input_data, output_data, dcttype, dcttype, flags)
    fftw.execute(plan)
    fftw.destroy_plan(plan)
@@ -716,7 +786,7 @@ end
    2D Discrete Cosine Transform (DCT)
    Takes Real inputs (2D tensor of NxM points)
 
-   To see what is exactly computed, see section REDFT10 over here: 
+   To see what is exactly computed, see section REDFT10 over here:
    http://www.fftw.org/doc/1d-Real_002deven-DFTs-_0028DCTs_0029.html
 ]]--
 function signal.dct2(input)
@@ -727,7 +797,7 @@ end
    inverse 2D Discrete Cosine Transform (DCT)
    Takes Real inputs (2D tensor of NxM points)
 
-   To see what is exactly computed, see section REDFT01 over here: 
+   To see what is exactly computed, see section REDFT01 over here:
    http://www.fftw.org/doc/1d-Real_002deven-DFTs-_0028DCTs_0029.html
 ]]--
 function signal.idct2(input)
@@ -749,9 +819,9 @@ local function dct3Generic(input, direction)
       dcttype = fftw.r2r_kind(fftw.REDFT10)
    else
       dcttype = fftw.r2r_kind(fftw.REDFT01)
-   end   
+   end
    local plan = fftw.plan_r2r_3d(input:size(1), input:size(2), input:size(3),
-				 input_data, output_data, 
+				 input_data, output_data,
 				 dcttype, dcttype, dcttype, flags)
    fftw.execute(plan)
    fftw.destroy_plan(plan)
@@ -766,7 +836,7 @@ end
    3D Discrete Cosine Transform (DCT)
    Takes Real inputs (3D tensor of NxMXP points)
 
-   To see what is exactly computed, see section REDFT10 over here: 
+   To see what is exactly computed, see section REDFT10 over here:
    http://www.fftw.org/doc/1d-Real_002deven-DFTs-_0028DCTs_0029.html
 ]]--
 function signal.dct3(input)
@@ -777,7 +847,7 @@ end
    inverse 3D Discrete Cosine Transform (DCT)
    Takes Real inputs (3D tensor of NxMxP points)
 
-   To see what is exactly computed, see section REDFT01 over here: 
+   To see what is exactly computed, see section REDFT01 over here:
    http://www.fftw.org/doc/1d-Real_002deven-DFTs-_0028DCTs_0029.html
 ]]--
 function signal.idct3(input)
